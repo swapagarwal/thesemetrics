@@ -3,10 +3,13 @@
   "scripts": {
     "build": "node scripts/generate",
     "migrate": "typeorm migration:run",
-    "rollback": "typeorm migration:revert"
+    "rollback": "typeorm migration:revert",
+    "premigrate": "npm run build",
+    "prerollback": "npm run build"
   },
   "devDependencies": {
     "@types/node": "^13.13.5",
+    "pg": "^8.1.0",
     "typeorm": "^0.2.24"
   }
 }
