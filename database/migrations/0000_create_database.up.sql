@@ -25,7 +25,7 @@ CREATE TABLE "team_member" (
 
 CREATE TABLE "project" (
   "teamId" integer NOT NULL REFERENCES "team"("id") ON DELETE CASCADE,
-  "id" integer NOT NULL,
+  "id" serial NOT NULL,
   "name" character varying NOT NULL,
   "type" character varying NOT NULL,
   "domain" character varying,
@@ -38,7 +38,6 @@ CREATE TABLE "event" (
   "projectId" integer NOT NULL REFERENCES "team"("id") ON DELETE CASCADE,
   -- event/resource
   "id" serial NOT NULL,
-  "type" character varying NOT NULL,
   "name" character varying NOT NULL,
   "resource" character varying NOT NULL,
   "source" character varying,
@@ -58,7 +57,7 @@ CREATE TABLE "event" (
   "userTimestamp" timestamp without time zone,
   -- extra
   "batchId" character varying,
-  "data" jsonb NOT NULL DEFAULT '{}'::jsonb,
+  "data" jsonb NOT NULL DEFAULT '{}' :: jsonb,
   "createdAt" timestamp with time zone NOT NULL DEFAULT current_timestamp,
   PRIMARY KEY ("id")
 );
