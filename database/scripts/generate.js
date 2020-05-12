@@ -44,8 +44,8 @@ async function main() {
 
   migrations.map(async (migration) => {
     const migrationFile = Path.resolve(migrationsDir, migration + '.js')
-    const [id, name] = migration.split('_', 2)
-    const className = `${name.replace(/[^a-zA-Z0-9$_]+/g, '_')}_158928020${id}`
+    const [, id, name] = /^(\d{4})_(.*)$/.exec(migration)
+    const className = `Migration_${name.replace(/[^a-zA-Z0-9$_]+/g, '_')}_158928020${id}`
 
     await FileSystem.writeFile(
       migrationFile,
@@ -57,7 +57,7 @@ async function main() {
         ),
         `  }`,
         ``,
-        `  down(runner) {`,
+        `  async down(runner) {`,
         ...(await getDownQueries(migration)).map(
           (query) => '    await runner.query(`\n' + indent(query) + '\n    `)'
         ),
