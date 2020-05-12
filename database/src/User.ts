@@ -5,7 +5,7 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
-import { Team } from './Team'
+import { ITeam, Team } from './Team'
 
 @Entity()
 export class User {
@@ -16,5 +16,7 @@ export class User {
   @Column() createdAt!: Date
   @Column() updatedAt!: Date
 
-  @ManyToMany(() => Team) @JoinTable() teams?: Team[]
+  @ManyToMany(() => Team) @JoinTable() teams?: ITeam[]
 }
+
+export interface IUser extends User {}

@@ -1,12 +1,12 @@
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
   ManyToOne,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm'
-import { Team } from './Team'
-import { ProjectEvent } from './ProjectEvent'
+import { IProjectEvent, ProjectEvent } from './ProjectEvent'
+import { ITeam, Team } from './Team'
 
 export enum ProjectType {
   WEBSITE = 'website',
@@ -22,6 +22,10 @@ export class Project {
   @Column() createdAt!: Date
   @Column() updatedAt!: Date
 
-  @ManyToOne(() => Team, (team) => team.projects) team?: Team
-  @OneToMany(() => ProjectEvent, (event) => event.project) events?: ProjectEvent
+  @ManyToOne(() => Team, (team) => team.projects) team?: ITeam
+
+  @OneToMany(() => ProjectEvent, (event: IProjectEvent) => event.project)
+  events?: IProjectEvent
 }
+
+export interface IProject extends Project {}

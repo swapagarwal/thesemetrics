@@ -1,11 +1,12 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { Project } from './Project'
+import { IProject, Project } from './Project'
 
 @Entity({ name: 'event' })
 export class ProjectEvent {
   @PrimaryGeneratedColumn() id!: number
 
   @Column() name!: string
+  @Column() batchId?: string
 
   @Column() resource!: string
   @Column() referrer?: string
@@ -26,11 +27,14 @@ export class ProjectEvent {
   @Column() country?: string
 
   @Column() userTimeZone?: string
-  @Column() userTimestamp?: string
+  @Column({ type: 'time without time zone' }) userTimestamp?: Date
 
-  @Column() data!: Record<string, any>
+  @Column({ type: 'jsonb' }) data!: Record<string, any>
 
   @Column() createdAt!: Date
 
-  @ManyToOne(() => Project, (project) => project.events) project?: Project
+  @ManyToOne(() => Project, (project: IProject) => project.events)
+  project?: IProject
 }
+
+export interface IProjectEvent extends ProjectEvent {}

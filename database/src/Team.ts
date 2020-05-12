@@ -1,13 +1,13 @@
 import {
   Column,
   Entity,
-  ManyToMany,
-  PrimaryGeneratedColumn,
   JoinTable,
+  ManyToMany,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm'
-import { User } from './User'
-import { Project } from './Project'
+import { IProject, Project } from './Project'
+import { IUser, User } from './User'
 
 export enum TeamType {
   INDIVIDUAL = 'individual',
@@ -23,6 +23,10 @@ export class Team {
   @Column() createdAt!: Date
   @Column() updatedAt!: Date
 
-  @OneToMany(() => Project, (project) => project.team) projects?: Project[]
-  @ManyToMany(() => User) @JoinTable() members?: User[]
+  @OneToMany(() => Project, (project: IProject) => project.team)
+  projects?: IProject[]
+
+  @ManyToMany(() => User) @JoinTable() members?: IUser[]
 }
+
+export interface ITeam extends Team {}
