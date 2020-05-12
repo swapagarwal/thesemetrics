@@ -2,7 +2,7 @@
   "private": true,
   "name": "@thesemetrics/database",
   "module": "dist/database.esm.js",
-  "types": "dist/database.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "node scripts/generate",
     "migrate": "typeorm migration:run",
@@ -12,9 +12,11 @@
   },
   "devDependencies": {
     "@types/node": "^13.13.5",
+    "typeorm": "^0.2.24",
     "pg": "^8.1.0"
   },
-  "dependencies": {
-    "typeorm": "^0.2.24"
+  "peerDependencies": {
+    "typeorm": "^0.2.24",
+    "pg": "^8.1.0"
   }
 }

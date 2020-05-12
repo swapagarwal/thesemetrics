@@ -7,6 +7,10 @@
     "target": "ES2020",
     "module": "ESNext",
 
+    "moduleResolution": "Node",
+    "declaration": true,
+    "declarationDir": "dist",
+
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   }
