@@ -1,3 +1,13 @@
 {
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^4.1.1",
+    "rollup": "^2.9.1",
+    "rollup-plugin-dts": "^1.4.2",
+    "tslib": "^1.11.2",
+    "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "build": "rollup -c"
+  }
 }
