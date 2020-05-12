@@ -31,7 +31,7 @@ async function main() {
       { encoding: 'utf8' }
     )
 
-    return contents.split(';')
+    return contents.split(';').filter((str) => !!str.trim())
   }
 
   async function getUpQueries(migration) {
@@ -45,7 +45,10 @@ async function main() {
   migrations.map(async (migration) => {
     const migrationFile = Path.resolve(migrationsDir, migration + '.js')
     const [, id, name] = /^(\d{4})_(.*)$/.exec(migration)
-    const className = `Migration_${name.replace(/[^a-zA-Z0-9$_]+/g, '_')}_158928020${id}`
+    const className = `Migration_${name.replace(
+      /[^a-zA-Z0-9$_]+/g,
+      '_'
+    )}_158928020${id}`
 
     await FileSystem.writeFile(
       migrationFile,
