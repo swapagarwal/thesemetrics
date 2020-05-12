@@ -1,0 +1,15 @@
+{
+  "name": "thesemetrics",
+  "description": "Webpage view analytics",
+  "authors": "Rahul Kadyan <rahulkdn@gmail.com>",
+  "version": "0.0.0",
+  "module": "dist/client.esm-bundler.js",
+  "browser": "dist/client.umd.js",
+  "build": {
+    "name": "TheseMetrics",
+    "input": {
+      "module": "src/bundler.ts",
+      "browser": "src/browser.ts"
+    }
+  }
+}
