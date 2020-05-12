@@ -1,0 +1,22 @@
+# Development Environment
+
+version: '3.8'
+
+services:
+  database:
+    image: postgres:11-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: analytics
+    ports:
+      - 5432:5432
+
+  database-ui:
+    image: adminer
+    restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+    ports:
+      - 54320:8080
