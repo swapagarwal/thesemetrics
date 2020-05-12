@@ -1,5 +1,8 @@
 {
   "private": true,
+  "name": "@thesemetrics/database",
+  "module": "dist/database.esm.js",
+  "types": "dist/database.d.ts",
   "scripts": {
     "build": "node scripts/generate",
     "migrate": "typeorm migration:run",
@@ -9,7 +12,9 @@
   },
   "devDependencies": {
     "@types/node": "^13.13.5",
-    "pg": "^8.1.0",
+    "pg": "^8.1.0"
+  },
+  "dependencies": {
     "typeorm": "^0.2.24"
   }
 }
