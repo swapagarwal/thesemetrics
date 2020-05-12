@@ -13,7 +13,10 @@ export class ProjectEvent {
   @Column() name!: string
 
   @Column() resource!: string
+  @Column() referrer?: string
   @Column() source?: string
+  @Column() medium?: string
+  @Column() campaign?: string
 
   @Column() device?: string
   @Column() deviceType?: string
