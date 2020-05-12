@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "node scripts/generate",
+    "migrate": "typeorm migration:run",
+    "rollback": "typeorm migration:revert"
+  },
+  "devDependencies": {
+    "@types/node": "^13.13.5",
+    "typeorm": "^0.2.24"
+  }
+}
