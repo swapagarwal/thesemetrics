@@ -1,6 +1,6 @@
 import Path from 'path'
-import typescript from '@rollup/plugin-typescript'
-import dts from 'rollup-plugin-dts'
+import typescript from 'rollup-plugin-typescript2'
+// import dts from 'rollup-plugin-dts'
 
 export default configs
 
@@ -41,9 +41,11 @@ const configs = [
     input: input(packageName),
     output: output(packageName),
     plugins: [
-      typescript({ tsconfig: getPackageFile(packageName, 'tsconfig.json') }),
-      dts(),
+      typescript({
+        check: true,
+        tsconfig: getPackageFile(packageName, 'tsconfig.json'),
+      }),
     ],
-    external: Object.keys(getPackageField(packageName, 'dependencies')),
+    external: Object.keys(getPackageField(packageName, 'peerDependencies')),
   })),
 ]
