@@ -16,9 +16,10 @@ export enum ProjectType {
 export class Project {
   @PrimaryGeneratedColumn() id!: number
 
-  @Column() type!: ProjectType
   @Column() name!: string
-  @Column() domain?: string
+  @Column() type!: ProjectType
+  @Column() domain!: string
+  @Column({ type: 'jsonb' }) preferences!: Record<string, any>
   @Column() createdAt!: Date
   @Column() updatedAt!: Date
 

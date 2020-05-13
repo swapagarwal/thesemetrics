@@ -14,12 +14,21 @@ export enum TeamType {
   ORGANIZATION = 'organization',
 }
 
+export enum Plan {
+  FREE = 'free',
+  ANONYMOUS = 'anonymous',
+}
+
 @Entity()
 export class Team {
   @PrimaryGeneratedColumn() id!: number
 
   @Column() type!: TeamType
   @Column() name!: string
+  @Column() plan!: Plan
+  @Column() stripe?: string
+  @Column({ type: 'jsonb' }) preferences!: Record<string, any>
+
   @Column() createdAt!: Date
   @Column() updatedAt!: Date
 

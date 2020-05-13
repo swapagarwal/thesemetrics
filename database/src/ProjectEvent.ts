@@ -3,34 +3,30 @@ import { IProject, Project } from './Project'
 
 @Entity({ name: 'event' })
 export class ProjectEvent {
-  @PrimaryGeneratedColumn() id!: number
+  @PrimaryGeneratedColumn() id!: string
 
   @Column() name!: string
-  @Column() batchId?: string
-
   @Column() resource!: string
-  @Column() referrer?: string
+  @Column() batch?: string
+  @Column() unique!: boolean
+
+  @Column() screenSize!: number
+  @Column() device!: string
+  @Column() browser!: string
+  @Column() browserVersion!: string
+  @Column() os!: string
+  @Column() osVersion!: string
+
   @Column() source?: string
   @Column() medium?: string
   @Column() campaign?: string
-
-  @Column() device?: string
-  @Column() deviceType?: string
-  @Column() screenSize?: number
-
-  @Column() browser?: string
-  @Column() browserVersion?: string
-
-  @Column() os?: string
-  @Column() osVersion?: string
+  @Column() referrer?: string
 
   @Column() country?: string
-
-  @Column() userTimeZone?: string
-  @Column({ type: 'time without time zone' }) userTimestamp?: Date
+  @Column() timeZone?: string
+  @Column({ type: 'time without time zone' }) timestamp?: Date
 
   @Column({ type: 'jsonb' }) data!: Record<string, any>
-
   @Column() createdAt!: Date
 
   @ManyToOne(() => Project, (project: IProject) => project.events)
