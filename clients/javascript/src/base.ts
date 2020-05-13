@@ -10,7 +10,9 @@ const basePayload /*#__PURE__*/ = {
   https: window.location.protocol === 'https',
   version: 1,
   unique: isUnique(),
-  batchId: getBatchId(),
+  batchId: getBatchId(), 
+  
+  // TODO: Process utm stuff.
 }
 
 const config /*#__PURE__*/ = {
@@ -39,10 +41,9 @@ let previousHash = window.location.hash
 export function sendPageReadEvent() {
   const duration = getDuration()
   const completion = getCompletion()
-  const options = { duration, completion }
+  const options: Partial<PageReadEvent> = { duration, completion }
 
   if (config.mode === 'hash') {
-    // @ts-ignore
     options.resource = getResource(previousHash)
   }
 
@@ -55,9 +56,35 @@ export function sendPageViewEvent() {
   return sendEvent('pageview')
 }
 
-let prevEvent: null | { event: string; resource: string } /*#__PURE__*/ = null
+interface BaseEvent {
+  id: string
+  timestamp: number
 
-function sendEvent(event: string, options: Options = Object.create(null)) {
+  [key: string]: any
+}
+
+interface PageViewEvent extends BaseEvent {
+  event: 'pageview'
+  resource: string
+}
+
+interface PageReadEvent extends BaseEvent {
+  event: 'pageread'
+  resource: string
+
+  duration: number
+  completion: number
+}
+
+type TheseMetricsEvent = PageReadEvent | PageViewEvent
+
+let prevEvent: null | TheseMetricsEvent /*#__PURE__*/ = null
+let firstEvent: null | TheseMetricsEvent /*#__PURE__*/ = null
+
+function sendEvent(
+  event: TheseMetricsEvent['event'],
+  options: Partial<TheseMetricsEvent> = Object.create(null)
+) {
   const resource = getResource()
 
   if (
@@ -68,7 +95,7 @@ function sendEvent(event: string, options: Options = Object.create(null)) {
     return // ignore duplicate event.
   }
 
-  const payload = {
+  const payload: TheseMetricsEvent = {
     id: uuid(),
     event,
     resource,
@@ -76,7 +103,7 @@ function sendEvent(event: string, options: Options = Object.create(null)) {
 
     ...basePayload,
     ...options,
-  }
+  } as any
 
   if (config.debug) {
     console.log(config.baseUrl, payload)
@@ -84,18 +111,23 @@ function sendEvent(event: string, options: Options = Object.create(null)) {
 
   new Image().src = `${config.baseUrl}?${Object.entries(payload)
     .filter(([, value]) => value != null)
-    .map(([key, value]) => `${key}=${encodeURIComponent(value!)}`)
+    .map(([key, value]) => `${key}=${encodeURIComponent(value as any)}`)
     .join('&')}`
 
   basePayload.referrer = undefined
   basePayload.unique = false
 
   prevEvent = payload
+  if (!firstEvent) firstEvent = payload
 
   return payload
 }
 
 function getResource(hash = window.location.hash) {
+  if (config.mode === 'hash') {
+    return hash ? hash.split('?')[0] || '/' : '/'
+  }
+
   return window.location.pathname || '/'
 }
 
@@ -227,15 +259,10 @@ function getScrollHeight() {
 function getBatchId() {
   const batchId = uuid()
 
-  try {
-    const prevBatchId = sessionStorage.getItem('__batch_id__')
-
-    if (prevBatchId) return prevBatchId
-
-    sessionStorage.setItem('__batch_id__', batchId)
-  } catch {
-    // ignore
-  }
+  // TODO: ensure this doesn't violate GDPR/CCPA/PECR
+  const prevBatchId = sessionStorage.getItem('__batch_id__')
+  if (prevBatchId) return prevBatchId
+  sessionStorage.setItem('__batch_id__', batchId)
 
   return batchId
 }
