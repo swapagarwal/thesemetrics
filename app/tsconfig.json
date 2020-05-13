@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "rootDir": "src",
+    "baseUrl": ".",
+    "strict": true,
+
+    "target": "ES2020",
+    "module": "ESNext",
+
+    "moduleResolution": "Node",
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
+}

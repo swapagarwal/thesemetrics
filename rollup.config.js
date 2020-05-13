@@ -46,7 +46,7 @@ function getExternal(packageName) {
   ]
 }
 
-const packages = ['database', 'pixel', 'clients/javascript']
+const packages = ['database', 'app', 'pixel', 'clients/javascript']
 
 /** @type {import('rollup').RollupOptions[]} */
 const configs = []
