@@ -13,10 +13,21 @@ services:
     ports:
       - 5432:5432
 
-  database-ui:
-    image: adminer
-    restart: always
+  db-migrate:
+    image: docker.pkg.github.com/znck/thesemetrics/db-migrate:latest
+    build:
+      context: database
+
+  app:
+    image: docker.pkg.github.com/znck/thesemetrics/app:latest
+    build:
+      context: app
     environment:
-      ADMINER_DEFAULT_SERVER: postgres
-    ports:
-      - 54320:8080
+      POSTGRES_URL: postgresql://user:pass@database:5432/analytics
+  
+  pixel:
+    image: docker.pkg.github.com/znck/thesemetrics/pixel:latest
+    build:
+      context: pixel
+    environment:
+      POSTGRES_URL: postgresql://user:pass@database:5432/analytics
