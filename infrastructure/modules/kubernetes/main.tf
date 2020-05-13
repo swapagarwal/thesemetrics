@@ -244,8 +244,6 @@ resource "kubernetes_ingress" "default" {
     }
   }
 
-  wait_for_load_balancer = true
-
   spec {
     backend {
       service_name = kubernetes_service.app.metadata[0].name
