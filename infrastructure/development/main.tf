@@ -3,7 +3,7 @@ provider "docker" {
 }
 
 module "database" {
-  source = "./modules/postgres"
+  source = "../modules/postgres"
 }
 
 
