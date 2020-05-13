@@ -16,6 +16,38 @@ importers:
       rollup-plugin-typescript2: ^0.27.0
       tslib: ^1.11.2
       typescript: ^3.8.3
+  app:
+    dependencies:
+      '@nestjs/common': 7.0.11_b3556d138b40afc7ad37744b780e54fd
+      '@nestjs/core': 7.0.11_be0a9e3aa6eeb960c185cafee53cd610
+      '@nestjs/platform-fastify': 7.0.11_d9b12555fb0bc5547ca2c18d363479eb
+      '@nestjs/typeorm': 7.0.0_ace4793402fc22a61cae6aa54d95d57b
+      dotenv: 8.2.0
+      fastify: 2.14.1
+      pg: 8.1.0_pg@8.1.0
+      reflect-metadata: 0.1.13
+      rxjs: 6.5.5
+      typeorm: 0.2.24
+      useragent: 2.3.0
+    devDependencies:
+      '@thesemetrics/database': 'link:../database'
+      '@types/node': 13.13.5
+      '@types/useragent': 2.1.1
+    specifiers:
+      '@nestjs/common': ^7.0.11
+      '@nestjs/core': ^7.0.11
+      '@nestjs/platform-fastify': ^7.0.11
+      '@nestjs/typeorm': ^7.0.0
+      '@thesemetrics/database': 'link:../database'
+      '@types/node': ^13.13.5
+      '@types/useragent': ^2.1.1
+      dotenv: ^8.2.0
+      fastify: ^2.14.1
+      pg: ^8.1.0
+      reflect-metadata: ^0.1.13
+      rxjs: ^6.5.5
+      typeorm: ^0.2.24
+      useragent: ^2.3.0
   clients/javascript:
     specifiers: {}
   database:
