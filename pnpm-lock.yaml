@@ -16,6 +16,16 @@ importers:
       rollup-plugin-typescript2: ^0.27.0
       tslib: ^1.11.2
       typescript: ^3.8.3
+  aggregations:
+    dependencies:
+      pg: 8.2.0_pg@8.2.0
+    devDependencies:
+      '@types/node': 14.0.1
+      '@types/pg': 7.14.3
+    specifiers:
+      '@types/node': ^14.0.1
+      '@types/pg': ^7.14.3
+      pg: ^8.2.0
   app:
     dependencies:
       '@nestjs/common': 7.0.11_b3556d138b40afc7ad37744b780e54fd
@@ -242,6 +252,21 @@ packages:
     dev: true
     resolution:
       integrity: sha512-3ySmiBYJPqgjiHA7oEaIo2Rzz0HrOZ7yrNO5HWyaE5q0lQ3BppDZ3N53Miz8bw2I7gh1/zir2MGVZBvpb1zq9g==
+  /@types/node/14.0.1:
+    dev: true
+    resolution:
+      integrity: sha512-FAYBGwC+W6F9+huFIDtn43cpy7+SzG+atzRiTfdp3inUKL2hXnd4rG8hylJLIh4+hqrQy1P17kvJByE/z825hA==
+  /@types/pg-types/1.11.5:
+    dev: true
+    resolution:
+      integrity: sha512-L8ogeT6vDzT1vxlW3KITTCt+BVXXVkLXfZ/XNm6UqbcJgxf+KPO7yjWx7dQQE8RW07KopL10x2gNMs41+IkMGQ==
+  /@types/pg/7.14.3:
+    dependencies:
+      '@types/node': 14.0.1
+      '@types/pg-types': 1.11.5
+    dev: true
+    resolution:
+      integrity: sha512-go5zddQ1FrUQHeBvqPzQ1svKo4KKucSwvqLsvwc/EIuQ9sxDA21b68xc/RwhzAK5pPCnez8NrkYatFIGdJBVvA==
   /@types/resolve/0.0.8:
     dependencies:
       '@types/node': 13.13.5
@@ -1058,9 +1083,21 @@ packages:
       pg: '>=8.0'
     resolution:
       integrity: sha512-7BLwDNDEfPFjE9vmZLcJPLFwuDAVGZ5lIZo2MeQfwYG7EPGfdNVis/dz6obI/yKqvQIx2sf6QBKXMLB+y/ftgA==
+  /pg-pool/3.2.0_pg@8.2.0:
+    dependencies:
+      pg: 8.2.0_pg@8.2.0
+    dev: false
+    peerDependencies:
+      pg: '>=8.0'
+    resolution:
+      integrity: sha512-7BLwDNDEfPFjE9vmZLcJPLFwuDAVGZ5lIZo2MeQfwYG7EPGfdNVis/dz6obI/yKqvQIx2sf6QBKXMLB+y/ftgA==
   /pg-protocol/1.2.2:
     resolution:
       integrity: sha512-r8hGxHOk3ccMjjmhFJ/QOSVW5A+PP84TeRlEwB/cQ9Zu+bvtZg8Z59Cx3AMfVQc9S0Z+EG+HKhicF1W1GN5Eqg==
+  /pg-protocol/1.2.3:
+    dev: false
+    resolution:
+      integrity: sha512-erHFURS0mPmTbq18cn/zNL3Y4IzNCrU4sgCim0qy7zAPe3Vc0rvK5cImJR6lDvIaz3fJU2R1R9FNOlnUtyF10Q==
   /pg-types/2.2.0:
     dependencies:
       pg-int8: 1.0.1
@@ -1088,6 +1125,23 @@ packages:
       pg: '*'
     resolution:
       integrity: sha512-Jp+XSNTGYDztc2FgIbmBXeeYMR7kKjfgnl3R+ioO6rkcxDmaea+YPp/gaxe13PBnJAFYyEGl0ixpwPm2gb6eUw==
+  /pg/8.2.0_pg@8.2.0:
+    dependencies:
+      buffer-writer: 2.0.0
+      packet-reader: 1.0.0
+      pg-connection-string: 2.2.2
+      pg-pool: 3.2.0_pg@8.2.0
+      pg-protocol: 1.2.3
+      pg-types: 2.2.0
+      pgpass: 1.0.2
+      semver: 4.3.2
+    dev: false
+    engines:
+      node: '>= 8.0.0'
+    peerDependencies:
+      pg: '*'
+    resolution:
+      integrity: sha512-EQeWKZv7qBTQZQa7EraR61AOi0bpizvlZLvrPdgAGaraX4YI+y40iQnL39XjPMXVnHOOG3jV6kAGtc0WSJn/+A==
   /pgpass/1.0.2:
     dependencies:
       split: 1.0.1
