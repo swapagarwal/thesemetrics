@@ -3,7 +3,7 @@ import { IProject, Project } from './Project'
 
 @Entity({ name: 'event' })
 export class ProjectEvent {
-  @PrimaryGeneratedColumn() id!: string
+  @PrimaryGeneratedColumn() id!: number
 
   @Column() name!: string
   @Column() resource!: string

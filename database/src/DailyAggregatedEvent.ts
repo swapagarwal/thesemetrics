@@ -3,7 +3,7 @@ import { IProject, Project } from './Project'
 
 @Entity({ name: 'event' })
 export class DailyAggregatedEvent {
-  @PrimaryGeneratedColumn() id!: string
+  @PrimaryGeneratedColumn() id!: number
 
   @Column() date!: Date
   @Column() kind!: string
@@ -15,4 +15,4 @@ export class DailyAggregatedEvent {
   project?: IProject
 }
 
-export interface IProjectEvent extends DailyAggregatedEvent {}
+export interface IDailyAggregatedEvent extends DailyAggregatedEvent {}
