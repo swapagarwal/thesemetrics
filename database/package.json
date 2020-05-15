@@ -4,11 +4,12 @@
   "module": "dist/database.esm.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "aggregate": "node scripts/aggregate",
     "build": "node scripts/generate",
     "migrate": "typeorm migration:run",
     "rollback": "typeorm migration:revert",
-    "premigrate": "npm run build",
-    "prerollback": "npm run build"
+    "dev:aggregate": "POSTGRES_URL='postgresql://user:pass@localhost:5432/analytics' node scripts/aggregate",
+    "dev:seed": "POSTGRES_URL='postgresql://user:pass@localhost:5432/analytics' node scripts/seed"
   },
   "devDependencies": {
     "@types/node": "^13.13.5",
