@@ -78,6 +78,8 @@ resource "kubernetes_job" "db_migrate" {
             name  = "POSTGRES_URL"
             value = var.database_uri
           }
+
+          command = ["npm", "run", "migrate"]
         }
 
         image_pull_secrets {

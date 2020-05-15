@@ -6,5 +6,3 @@ ADD package.json /app/package.json
 RUN npm install
 
 ADD migrations/*.js /app/migrations/
-
-ENTRYPOINT ["npm", "run", "migrate"]
