@@ -1,6 +1,6 @@
 -->
 INSERT INTO
-  "project" ("teamId", "name", "type", "domain")
+  "projects" ("teamId", "name", "type", "domain")
 VALUES
   (1, 'One', 'website', 'one.example.com'),
   (1, 'Two', 'website', 'two.example.com'),
@@ -8,17 +8,15 @@ VALUES
 
 -->
 INSERT INTO
-  "event" (
+  "pageviews" (
     "projectId",
-    "name",
-    "resource",
+    "path",
     "unique",
     "createdOn"
   )
 SELECT
   floor(random() * 3 + 1) :: INT AS "projectId",
-  'pageview' AS "name",
-  (ARRAY [ '/', '/login', '/about' ]) [ floor(random() * 3 + 1) ] AS "resource",
+  (ARRAY [ '/', '/login', '/about' ]) [ floor(random() * 3 + 1) ] AS "path",
   (ARRAY [ true, FALSE ]) [ floor(random() * 2 + 1) ] AS "unique",
   "createdOn"
 FROM

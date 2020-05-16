@@ -1,25 +1,28 @@
-DROP TABLE "execution" CASCADE;
+DROP FUNCTION compute_daily_aggregate_pageviews;
 
 -->
-DROP TABLE "aggregated_event" CASCADE;
+DROP TABLE "daily_aggregate_pageviews" CASCADE;
 
 -->
-DROP TABLE "weekly_aggregated_event" CASCADE;
+DROP FUNCTION compute_daily_device_pageviews;
 
 -->
-DROP TABLE "daily_aggregated_event" CASCADE;
+DROP TABLE "daily_aggregate_devices" CASCADE;
 
 -->
-DROP TABLE "event" CASCADE;
+DROP TABLE "events" CASCADE;
 
 -->
-DROP TABLE "project" CASCADE;
+DROP TABLE "pageviews" CASCADE;
+
+-->
+DROP TABLE "projects" CASCADE;
 
 -->
 DROP TABLE "team_member" CASCADE;
 
 -->
-DROP TABLE "user" CASCADE;
+DROP TABLE "users" CASCADE;
 
 -->
-DROP TABLE "team" CASCADE;
+DROP TABLE "teams" CASCADE;

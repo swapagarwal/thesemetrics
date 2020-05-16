@@ -1,5 +1,5 @@
 INSERT INTO
-  "team" ("id", "type", "name", "email", "plan")
+  "teams" ("id", "type", "name", "email", "plan")
 VALUES
   (
     1,
