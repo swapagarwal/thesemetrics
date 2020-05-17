@@ -1,21 +1,13 @@
 -->
 INSERT INTO
-  "projects" ("teamId", "name", "type", "domain")
-VALUES
-  (1, 'One', 'website', 'one.example.com'),
-  (1, 'Two', 'website', 'two.example.com'),
-  (1, 'Three', 'website', 'three.example.com');
-
--->
-INSERT INTO
-  "pageviews" (
+  "pageview" (
     "projectId",
     "path",
     "unique",
     "createdOn"
   )
 SELECT
-  floor(random() * 3 + 1) :: INT AS "projectId",
+  1 AS "projectId",
   (ARRAY [ '/', '/login', '/about' ]) [ floor(random() * 3 + 1) ] AS "path",
   (ARRAY [ true, FALSE ]) [ floor(random() * 2 + 1) ] AS "unique",
   "createdOn"

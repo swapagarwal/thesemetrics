@@ -19,7 +19,6 @@ export class DailyAggregateReferrerPageView {
   @Column() referrer!: string
   @Column() path!: string
   @Column() count!: number
-  @Column() uniqueCount!: number
 
   @ManyToOne(() => Project, (project: IProject) => project.events)
   project?: IProject
