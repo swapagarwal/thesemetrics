@@ -25,6 +25,7 @@ export class Team {
 
   @Column() type!: TeamType
   @Column() name!: string
+  @Column() email!: string
   @Column() plan!: Plan
   @Column() stripe?: string
   @Column({ type: 'jsonb' }) preferences!: Record<string, any>
@@ -35,7 +36,7 @@ export class Team {
   @OneToMany(() => Project, (project: IProject) => project.team)
   projects?: IProject[]
 
-  @ManyToMany(() => User) @JoinTable() members?: IUser[]
+  @ManyToMany(() => User) @JoinTable({ name: 'team_member' }) members?: IUser[]
 }
 
 export interface ITeam extends Team {}

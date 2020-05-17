@@ -1,4 +1,4 @@
 DELETE FROM
-  "teams"
+  "team"
 WHERE
   "id" = 1;

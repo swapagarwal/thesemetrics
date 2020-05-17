@@ -1,18 +1,17 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { IProject, Project } from './Project'
 
-@Entity({ name: 'event' })
-export class WeeklyAggregatedEvent {
+@Entity({ name: 'daily_aggregate_pageview' })
+export class DailyAggregatePageView {
   @PrimaryGeneratedColumn() id!: number
 
   @Column() date!: Date
-  @Column() kind!: string
-  @Column() value!: string
-  @Column({ type: 'jsonb' }) data!: Record<string, any>
-  @Column() createdAt!: Date
+  @Column() path!: string
+  @Column() count!: number
+  @Column() uniqueCount!: number
 
   @ManyToOne(() => Project, (project: IProject) => project.events)
   project?: IProject
 }
 
-export interface IWeeklyAggregatedEvent extends WeeklyAggregatedEvent {}
+export interface IDailyAggregatePageView extends DailyAggregatePageView {}

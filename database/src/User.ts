@@ -17,7 +17,7 @@ export class User {
   @Column() updatedAt!: Date
   @Column() lastLoginAt?: Date
 
-  @ManyToMany(() => Team) @JoinTable() teams?: ITeam[]
+  @ManyToMany(() => Team) @JoinTable({ name: 'team_member' }) teams?: ITeam[]
 }
 
 export interface IUser extends User {}

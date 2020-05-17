@@ -1,5 +1,6 @@
 // @ts-check
 const typeorm = require('typeorm');
+const config = require('../ormconfig')
 
 function yesterday() {
   const date = new Date();
@@ -12,7 +13,7 @@ function yesterday() {
 async function main() {
   const connection = await typeorm.createConnection({
     type: 'postgres',
-    url: process.env.POSTGRES_URL,
+    url: config.url,
   });
 
   const DATE = yesterday();
@@ -22,6 +23,12 @@ async function main() {
     await Promise.all([
       connection.query('SELECT compute_daily_device_pageviews($1::DATE)', [date]),
       connection.query('SELECT compute_daily_aggregate_pageviews($1::DATE)', [date]),
+      connection.query(`SELECT compute_daily_aggregate_referrer_pageviews('source', $1::DATE)`, [date]),
+      connection.query(`SELECT compute_daily_aggregate_referrer_pageviews('medium', $1::DATE)`, [date]),
+      connection.query(`SELECT compute_daily_aggregate_referrer_pageviews('campaign', $1::DATE)`, [date]),
+      connection.query(`SELECT compute_daily_aggregate_referrer_pageviews('referrer', $1::DATE)`, [date]),
+      connection.query(`SELECT compute_daily_aggregate_referrer_pageviews('country', $1::DATE)`, [date]),
+      connection.query(`SELECT compute_daily_aggregate_referrer_pageviews('timezone', $1::DATE)`, [date]),
     ]);
   });
 }
