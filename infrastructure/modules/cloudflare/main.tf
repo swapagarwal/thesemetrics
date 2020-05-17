@@ -42,7 +42,6 @@ resource "cloudflare_zone_settings_override" "default" {
     browser_check = "on"
 
     ipv6  = "on"
-    # http2 = "on" # Paid plan
     http3 = "on"
 
     brotli              = "on"
