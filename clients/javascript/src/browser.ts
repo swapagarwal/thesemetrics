@@ -35,7 +35,7 @@ function getBaseUrl(base?: string) {
     )
   }
 
-  return 'https://thesemetrics.xyz/default.gif'
+  return 'https://pixel.thesemetrics.xyz/default.gif'
 }
 
 // ------- Send event -------
