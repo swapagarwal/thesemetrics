@@ -1,19 +1,10 @@
-import {
-  Controller,
-  Get,
-  Headers,
-  Query,
-  Res,
-  BadRequestException,
-} from '@nestjs/common'
-import { lookup } from 'useragent'
-import { ProjectService } from './ProjectService'
-import { FastifyReply } from 'fastify'
+import { BadRequestException, Controller, Get, Headers, Query, Res } from '@nestjs/common';
+import getDevice from 'device';
+import { FastifyReply } from 'fastify';
+import { lookup } from 'useragent';
+import { ProjectService } from './ProjectService';
 
-const pixel = Buffer.from(
-  'R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=',
-  'base64'
-)
+const pixel = Buffer.from('R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=', 'base64');
 
 @Controller()
 export class PixelController {
@@ -24,113 +15,99 @@ export class PixelController {
     @Res() response: FastifyReply<Response>,
     @Query('domain') domain: string,
     @Query('event') name: string,
-    @Query('resource') resource: string,
-    // -- referrers and sources --
-    @Query('referrer') referrer: string,
-    @Query('source') source: string,
-    @Query('medium') medium: string,
-    @Query('campaign') campaign: string,
-    // -- device --
-    @Query('device') device: string,
-    @Query('deviceType') deviceType: string,
-    @Query('width') screenSize: string,
-    @Query('touch') touch: string,
-    // -- user --
-    @Query('timezone') userTimeZone: string,
-    @Query('timestamp') userTimestamp: string,
-    // -- others --
-    @Query('duration') duration: string,
-    @Query('completion') completion: string,
-    @Query('unique') unique: string,
-    @Query('version') version: string,
-    @Query('https') https: string,
-    @Query('batchId') batchId: string,
-    @Query('id') uuid: string,
-    // -- headers --
+    @Query('path') path: string,
+    @Query('session') session: string,
+    @Query('timestamp') timestamp: string,
     @Headers('cf-ipcountry') country: string,
-    @Headers('user-agent') ua: string = ''
+    @Headers('user-agent') ua: string = '',
+    @Query() query: Record<string, string>
   ) {
-    if (!domain || !resource || !name) {
-      // TODO: Log request...
-      throw new BadRequestException()
+    response.header('Cache-Control', 'no-store');
+
+    if (!domain || !path || !name) {
+      throw new BadRequestException();
     }
 
-    const result = lookup(ua)
+    if (name === 'pageview') {
+      const result = lookup(ua);
 
-    const browser = result.family
-    const browserVersion = result.major
-    const browserVersionFull = `${result.major}.${result.minor}.${result.patch}`
+      const browser = result.family;
+      const browserVersion = result.major;
+      const browserVersionFull = `${result.major}.${result.minor}.${result.patch}`;
 
-    const os = result.os.family
-    const osVersion = result.os.major
-    const osVersionFull = `${result.os.major}.${result.os.minor}.${result.os.patch}`
+      const os = result.os.family;
+      const osVersion = result.os.major;
+      const osVersionFull = `${result.os.major}.${result.os.minor}.${result.os.patch}`;
 
-    if (!device) {
-      device = result.device.family
+      const device = result.device.family;
+      const deviceType = getDevice(ua).type as string;
+
+      await this.service.addPageView({
+        domain,
+
+        path,
+        session: session,
+        unique: coerceBoolean(query.unique),
+
+        device,
+        deviceType,
+        browser,
+        browserVersion,
+        os,
+        osVersion,
+        screenSize: coerceInteger(query.screenSize) || 0,
+
+        source: query.source,
+        medium: query.medium,
+        campaign: query.campaign,
+        referrer: query.referrer,
+
+        country,
+        timezone: query.timezone,
+        timestamp: timestamp as any,
+
+        data: {
+          uuid: query.id,
+          version: query.version,
+          https: coerceBoolean(query.https),
+          touch: coerceBoolean(query.touch),
+          javascript: true,
+          browserVersion: browserVersionFull,
+          osVersion: osVersionFull,
+        },
+      });
+    } else if (name === 'pageread') {
+      await this.service.addEvent({
+        domain,
+        name,
+        path,
+        session,
+        timestamp: timestamp as any,
+        data: {
+          uuid: query.id,
+          version: query.version,
+          duration: coerceInteger(query.duration) as number,
+          completion: coerceInteger(query.completion) as number,
+        },
+      });
     }
 
-    await this.service.mayBePushEvent({
-      domain,
-
-      name,
-
-      resource,
-      referrer: referrer ? referrer.split('/')[0] : referrer,
-      source,
-      medium,
-      campaign,
-
-      device,
-      deviceType,
-      screenSize: coerceInteger(screenSize),
-
-      browser,
-      browserVersion,
-
-      os,
-      osVersion,
-
-      country,
-
-      userTimeZone,
-      userTimestamp: coerceDate(userTimestamp),
-
-      batchId,
-      data: {
-        uuid,
-        version,
-        duration: coerceInteger(duration),
-        completion: coerceInteger(completion),
-        https: coerceBoolean(https),
-        touch: coerceBoolean(touch),
-        unique: coerceBoolean(touch),
-        browserVersionFull,
-        osVersionFull,
-        referrerFull: referrer,
-        javascript: true,
-      },
-    })
-
-    response
-      .header('Cache-Control', 'no-store')
-      .header('Content-Type', 'image/gif')
-
-    return response.send(pixel)
+    return response.code(200).type('image/gif').send(pixel);
   }
 }
 
 function coerceInteger(val: string) {
-  const int = parseInt(val)
+  const int = parseInt(val);
 
-  return Number.isInteger(int) ? int : undefined
+  return Number.isInteger(int) ? int : undefined;
 }
 
 function coerceDate(val: string) {
-  const int = parseInt(val)
+  const date = /^[0-9]+$/.test(val) ? new Date(Number(val)) : new Date(val);
 
-  return Number.isInteger(int) ? new Date(int) : undefined
+  return Number.isNaN(date.getTime()) ? undefined : date;
 }
 
 function coerceBoolean(val: string) {
-  return /^(true|yes|on|1)$/i.test(val)
+  return /^(true|yes|on|1)$/i.test(val);
 }
