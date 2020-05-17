@@ -12,6 +12,14 @@ variable "docker_registry_token" {
   type = string
 }
 
-variable "database_uri" {
+variable "app_database_uri" {
+  type = string
+}
+
+variable "pixel_database_uri" {
+  type = string
+}
+
+variable "job_database_uri" {
   type = string
 }

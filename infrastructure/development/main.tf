@@ -17,5 +17,7 @@ module "kubernetes" {
   app_replicas          = 1
   pixel_replicas        = 1
   docker_registry_token = var.docker_registry_token
-  database_uri          = module.database.url
+  app_database_uri      = module.database.url
+  pixel_database_uri    = module.database.url
+  job_database_uri      = module.database.url
 }

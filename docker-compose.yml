@@ -14,7 +14,7 @@ services:
       - 5432:5432
 
   db-migrate:
-    image: docker.pkg.github.com/znck/thesemetrics/db-migrate:latest
+    image: docker.pkg.github.com/znck/thesemetrics/db:latest
     build:
       context: database
     command: npm run migrate

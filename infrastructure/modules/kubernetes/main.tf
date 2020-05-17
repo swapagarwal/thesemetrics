@@ -72,18 +72,63 @@ resource "kubernetes_job" "db_migrate" {
 
         container {
           name  = "db-migrate"
-          image = "docker.pkg.github.com/znck/thesemetrics/db-migrate:latest"
+          image = "docker.pkg.github.com/znck/thesemetrics/db:latest"
 
           env {
             name  = "POSTGRES_URL"
-            value = var.database_uri
+            value = var.job_database_uri
           }
 
-          command = ["npm", "run", "migrate"]
+          command = ["npm", "run", "aggregate"]
         }
 
         image_pull_secrets {
           name = kubernetes_secret.docker.metadata[0].name
+        }
+      }
+
+    }
+  }
+}
+
+resource "kubernetes_cron_job" "db_aggregate" {
+  metadata {
+    name = "db-aggregate"
+  }
+
+  spec {
+    concurrency_policy            = "Replace"
+    failed_jobs_history_limit     = 5
+    schedule                      = "5 0 * * *"
+    starting_deadline_seconds     = 10
+    successful_jobs_history_limit = 10
+    suspend                       = true
+
+    job_template {
+      metadata {
+        name = "db-aggregate"
+      }
+
+      spec {
+        template {
+          metadata {}
+          spec {
+            container {
+              name  = "db-aggregate"
+              image = "docker.pkg.github.com/znck/thesemetrics/db:latest"
+
+              env {
+                name  = "POSTGRES_URL"
+                value = var.job_database_uri
+              }
+
+              command = ["npm", "run", "aggregate"]
+            }
+
+            image_pull_secrets {
+              name = kubernetes_secret.docker.metadata[0].name
+            }
+          }
         }
       }
 
@@ -130,7 +175,7 @@ resource "kubernetes_deployment" "pixel" {
 
           env {
             name  = "POSTGRES_URL"
-            value = var.database_uri
+            value = var.pixel_database_uri
           }
         }
 
@@ -180,7 +225,7 @@ resource "kubernetes_deployment" "app" {
 
           env {
             name  = "POSTGRES_URL"
-            value = var.database_uri
+            value = var.app_database_uri
           }
         }
 
