@@ -17,6 +17,12 @@ services:
     image: docker.pkg.github.com/znck/thesemetrics/db-migrate:latest
     build:
       context: database
+    command: npm run migrate
+    restart: 'no'
+    environment:
+      POSTGRES_URL: postgresql://user:pass@database:5432/analytics
+    depends_on:
+      - database
 
   app:
     image: docker.pkg.github.com/znck/thesemetrics/app:latest
@@ -24,10 +30,18 @@ services:
       context: app
     environment:
       POSTGRES_URL: postgresql://user:pass@database:5432/analytics
-  
+    ports:
+      - 3000:3000
+    depends_on:
+      - database
+
   pixel:
     image: docker.pkg.github.com/znck/thesemetrics/pixel:latest
     build:
       context: pixel
     environment:
       POSTGRES_URL: postgresql://user:pass@database:5432/analytics
+    ports:
+      - 3001:3001
+    depends_on:
+      - database

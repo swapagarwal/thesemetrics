@@ -1,5 +1,8 @@
 {
   "cSpell.words": [
+    "pageread",
+    "pageview",
     "thesemetrics"
-  ]
+  ],
+  "typescript.preferences.importModuleSpecifier": "non-relative"
 }
