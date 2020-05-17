@@ -21,7 +21,7 @@ export default defineComponent({
     <main>
       <pre>
         <code>
-          {{ `<script src="https://unpkg.com/@thesemetrics/javascript"></script>` }}
+          {{ `<script src="https://unpkg.com/thesemetrics"></script>` }}
         </code>
       </pre>
 

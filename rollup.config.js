@@ -2,6 +2,8 @@ import Path from 'path';
 import typescript from 'rollup-plugin-typescript2';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
+import { terser } from 'rollup-plugin-terser';
+import bundleSize from 'rollup-plugin-bundle-size';
 
 function getPackageDirectory(packageName) {
   return Path.join(__dirname, packageName);
@@ -54,26 +56,37 @@ const configs = [];
 
 export default configs;
 
+const isProd = process.env.BUILD === 'production';
 packages.forEach((packageName) => {
   const build = getPackageField(packageName, 'build') || {};
   const config = {
     plugins: [
       replace({
-        __DEV__: process.env.BUILD !== 'production',
+        __DEV__: !isProd,
       }),
       resolve(),
       typescript({
         check: true,
         tsconfig: getPackageFile(packageName, 'tsconfig.json'),
       }),
+      bundleSize(),
     ],
     external: getExternal(packageName),
   };
 
   if (build.input) {
+    const copy = {
+      ...config,
+      plugins: config.plugins.slice(),
+    };
+
+    if (isProd) {
+      copy.plugins.push(terser());
+    }
+
     Object.entries(build.input).forEach(([kind, entry]) => {
       configs.push({
-        ...config,
+        ...copy,
         input: getPackageFile(packageName, entry),
         output: output(packageName, kind),
       });

@@ -2,8 +2,11 @@
   "name": "thesemetrics",
   "description": "Webpage view analytics",
   "authors": "Rahul Kadyan <rahulkdn@gmail.com>",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "module": "dist/client.esm-bundler.js",
+  "cdn": "dist/client.umd.js",
+  "unpkg": "dist/client.umd.js",
+  "jsdelivr": "dist/client.umd.js",
   "browser": "dist/client.umd.js",
   "build": {
     "name": "TheseMetrics",
@@ -11,5 +14,8 @@
       "module": "src/bundler.ts",
       "browser": "src/browser.ts"
     }
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
