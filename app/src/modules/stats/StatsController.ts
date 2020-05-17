@@ -1,4 +1,5 @@
 import { ProjectService } from '@/modules/project';
+import { ReferrerKind } from '@/modules/db';
 import { StatsService } from '@/modules/stats/StatsService';
 import { Controller, Get, Param, Res } from '@nestjs/common';
 import { FastifyReply } from 'fastify';
@@ -7,24 +8,33 @@ import { FastifyReply } from 'fastify';
 export class StatsController {
   constructor(private readonly stats: StatsService, private readonly projects: ProjectService) {}
 
+  @Get('/stats/:domain')
+  async getAllStats(@Param('domain') domain: string, @Res() response: FastifyReply<Response>) {
+    return this.getStats(domain, '*', response);
+  }
+
   @Get('/stats/:domain/:path')
   async getStats(
     @Param('domain') domain: string,
-    @Param('path') path: string = '*',
+    @Param('path') path: string,
     @Res() response: FastifyReply<Response>
   ) {
     if (path !== '*') path = '/' + path;
     const project = await this.projects.findProjectByDomain(domain);
     const devices = await this.stats.getDevices(project);
     const pageviews = await this.stats.getPageViews(project, path);
+    const resources = await this.stats.getTopResources(project);
+    const referrers = await this.stats.getReferrers(project, ReferrerKind.REFERRER);
 
-    response.header('Cache-Control', `public, max-age=${secondsRemainingToday()}, immutable`);
+    if (!__DEV__) response.header('Cache-Control', `public, max-age=${secondsRemainingToday()}, immutable`);
 
-    return response.send({
+    return response.type('application/json').send({
       domain: project.domain,
       resource: path,
       devices,
       pageviews,
+      resources,
+      referrers,
     });
   }
 }

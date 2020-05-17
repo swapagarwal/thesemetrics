@@ -1,4 +1,10 @@
-import { DailyAggregateDevice, DailyAggregatePageView, DailyAggregateReferrerPageView, Project } from '@/modules/db';
+import {
+  DailyAggregateDevice,
+  DailyAggregatePageView,
+  DailyAggregateReferrerPageView,
+  Project,
+  ReferrerKind,
+} from '@/modules/db';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MoreThanOrEqual, Repository } from 'typeorm';
@@ -20,10 +26,25 @@ export class StatsService {
     });
   }
 
-  async getReferrers(project: Project, resource = '*', since = getLastMonth()) {
+  async getReferrers(project: Project, kind: ReferrerKind, resource = '*', since = getLastMonth()) {
     return this.referrers.find({
-      where: { project, date: MoreThanOrEqual(since), path: resource },
+      where: { project, referrerKind: kind, date: MoreThanOrEqual(since), path: resource },
     });
+  }
+
+  async getTopResources(project: Project, since = getLastMonth()) {
+    const result: Array<{ path: string; count: string }> = await this.pageviews
+      .createQueryBuilder()
+      .select([])
+      .addSelect('"path"')
+      .addSelect('sum("count") as "count"')
+      .where({ project, date: MoreThanOrEqual(since) })
+      .addGroupBy('"path"')
+      .addOrderBy('"count"', 'DESC')
+      .take(10)
+      .execute();
+
+    return result.map(({ path, count }) => ({ path, count: Number(count) }));
   }
 
   async getDevices(project: Project, since = getLastMonth()) {

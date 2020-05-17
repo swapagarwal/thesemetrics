@@ -18,6 +18,8 @@ async function bootstrap() {
     })
   );
 
+  app.enableCors()
+
   app.listen(3000);
 }
 

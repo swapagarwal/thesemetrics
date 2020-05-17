@@ -8,6 +8,11 @@
   "engines": {
     "node": ">=12.14.0"
   },
+  "build": {
+    "external": [
+      "typeorm/error/EntityNotFoundError"
+    ]
+  },
   "dependencies": {
     "@nestjs/common": "^7.0.11",
     "@nestjs/core": "^7.0.11",

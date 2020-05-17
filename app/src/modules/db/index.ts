@@ -10,6 +10,8 @@ import {
   DailyAggregateReferrerPageView,
   ProjectEvent,
 } from '@thesemetrics/database';
+import { APP_FILTER } from '@nestjs/core';
+import { DatabaseExceptionFilter } from '@/modules/db/DatabaseExceptionFilter';
 
 export * from '@thesemetrics/database';
 
@@ -31,5 +33,6 @@ export * from '@thesemetrics/database';
       synchronize: false,
     }),
   ],
+  providers: [{ provide: APP_FILTER, useClass: DatabaseExceptionFilter }],
 })
 export default class DatabaseModule {}
