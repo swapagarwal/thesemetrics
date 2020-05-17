@@ -10,7 +10,7 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c --environment BUILD:production",
     "dev": "rollup -c -w"
   }
 }
