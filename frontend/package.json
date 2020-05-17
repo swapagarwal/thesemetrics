@@ -10,7 +10,7 @@
     "vue-router": "^4.0.0-alpha.11"
   },
   "scripts": {
-    "build": "vite build --sourcemap public",
+    "build": "vite build --sourcemap",
     "postbuild": "cp netlify.toml dist/",
     "serve": "vite serve --port 8080 "
   }
