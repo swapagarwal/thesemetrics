@@ -41,6 +41,13 @@ export class PixelController {
 
       const device = result.device.family;
       const deviceType = getDevice(ua).type as string;
+      const utm: Record<string, string> = {};
+
+      Object.keys(query).forEach((key) => {
+        if (key.startsWith('utm_')) {
+          utm[key.replace(/^utm_/, '')] = query[key];
+        }
+      });
 
       await this.service.addPageView({
         domain,
@@ -74,6 +81,7 @@ export class PixelController {
           javascript: true,
           browserVersion: browserVersionFull,
           osVersion: osVersionFull,
+          utm: Object.keys(utm).length ? utm : undefined,
         },
       });
     } else if (name === 'pageread') {

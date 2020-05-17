@@ -15,6 +15,7 @@ export interface PageViewOptions extends Omit<PageView, 'id' | 'createdAt' | 'cr
     browserVersion: string;
     osVersion: string;
     referrer: string;
+    utm: Record<string, string>
   }>;
 }
 
