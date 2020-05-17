@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "@thesemetrics/frontend",
+  "devDependencies": {
+    "vite": "^0.15.3"
+  },
+  "dependencies": {
+    "apexcharts": "^3.19.0",
+    "vue": "^3.0.0-beta.12",
+    "vue-router": "^4.0.0-alpha.11"
+  },
+  "scripts": {
+    "serve": "vite serve --port 8080"
+  }
+}
