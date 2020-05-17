@@ -29,10 +29,10 @@ function output(packageName, kind = undefined) {
   const build = getPackageField(packageName, 'build') || {}
 
   const outputs = [
-    !kind || kind === 'main' ? { file: f('main'), format: 'cjs' } : {},
-    !kind || kind === 'module' ? { file: f('module'), format: 'esm' } : {},
+    !kind || kind === 'main' ? { file: f('main'), format: 'cjs', sourcemap: true } : {},
+    !kind || kind === 'module' ? { file: f('module'), format: 'esm', sourcemap: true } : {},
     !kind || kind === 'browser'
-      ? { file: f('browser'), format: 'umd', name: build.name }
+      ? { file: f('browser'), format: 'umd', name: build.name, sourcemap: true }
       : {},
   ].filter((output) => !!output.file)
 
