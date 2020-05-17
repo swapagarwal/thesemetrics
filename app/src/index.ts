@@ -1,13 +1,13 @@
-import './env'
+import '@/env';
 
-import { NestFactory } from '@nestjs/core'
-import { Module } from '@nestjs/common'
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from '@nestjs/platform-fastify'
+import { NestFactory } from '@nestjs/core';
+import { Module } from '@nestjs/common';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import StatsModule from '@/modules/stats';
 
-@Module({})
+@Module({
+  imports: [StatsModule],
+})
 class AppModule {}
 
 async function bootstrap() {
@@ -16,9 +16,9 @@ async function bootstrap() {
     new FastifyAdapter({
       cors: true,
     })
-  )
+  );
 
-  app.listen(3000)
+  app.listen(3000);
 }
 
-bootstrap()
+bootstrap();
