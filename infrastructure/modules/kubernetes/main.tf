@@ -32,6 +32,13 @@ resource "kubernetes_secret" "certificate" {
     namespace = local.namespace
     name      = "default-ssl-certificate"
   }
+
+  data = {
+    "tls.crt" = var.tls_certifacte
+    "tls.key" = var.tls_private_key
+  }
+
+  type = "kubernetes.io/tls"
 }
 
 resource "kubernetes_secret" "docker" {

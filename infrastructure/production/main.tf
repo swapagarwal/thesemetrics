@@ -8,6 +8,18 @@ module "vpc" {
   source = "../modules/vpc"
 }
 
+provider "acme" {
+  version    = "~> 1.5"
+  server_url = "https://acme-v02.api.letsencrypt.org/directory"
+}
+
+module "acme" {
+  source = "../modules/acme"
+
+  cloudflare_token = var.cloudflare_token
+  private_key_pem  = var.private_key_pem
+}
+
 provider "kubernetes" {
   version = "~> 1.11"
 
@@ -28,6 +40,8 @@ module "kubernetes" {
   app_database_uri      = module.vpc.app_database_uri
   pixel_database_uri    = module.vpc.pixel_database_uri
   job_database_uri      = module.vpc.job_database_uri
+  tls_certifacte        = module.acme.certificate
+  tls_private_key       = module.acme.private_key
 }
 
 provider "cloudflare" {

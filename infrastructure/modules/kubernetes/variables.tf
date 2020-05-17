@@ -23,3 +23,11 @@ variable "pixel_database_uri" {
 variable "job_database_uri" {
   type = string
 }
+
+variable "tls_certifacte" {
+  type = string
+}
+
+variable "tls_private_key" {
+  type = string
+}
