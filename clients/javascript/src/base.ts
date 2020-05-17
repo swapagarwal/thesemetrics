@@ -189,19 +189,15 @@ function isUnique() {
   const referrer = getReferrer();
 
   if (referrer) {
-    return (
-      referrer
-        .replace(/^https?:\/\//, '')
-        .split('/', 1)[0]
-        .split(':', 1)[0] !== window.location.hostname
-    );
+    return referrer.split('/', 1)[0] !== window.location.hostname;
   }
 
   return true;
 }
 
 function getReferrer() {
-  return document.referrer ? document.referrer.replace(/^https?:\/\//i, '').split('?', 2)[0] : undefined;
+  const { referrer } = document;
+  return referrer ? referrer.replace(/^https?:\/\//i, '').split('?', 2)[0] : undefined;
 }
 
 function uuid() {
@@ -280,15 +276,12 @@ function getScrollHeight() {
   return Number.isFinite(position) ? Math.max(1, position) : 1;
 }
 
-const KEY /*#__PURE__*/ = '__batch_id__';
 function getBatchId() {
+  const KEY = '__batch_id__';
   const session = uuid();
-
-  // TODO: ensure this doesn't violate GDPR/CCPA/PECR
-  const prevBatchId = sessionStorage.getItem(KEY);
+  const prevBatchId = sessionStorage.getItem(KEY); // TODO: ensure this doesn't violate GDPR/CCPA/PECR
   if (prevBatchId) return prevBatchId;
   sessionStorage.setItem(KEY, session);
-
   return session;
 }
 

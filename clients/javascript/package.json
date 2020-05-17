@@ -2,7 +2,7 @@
   "name": "thesemetrics",
   "description": "Webpage view analytics",
   "authors": "Rahul Kadyan <rahulkdn@gmail.com>",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "module": "dist/client.esm-bundler.js",
   "cdn": "dist/client.umd.js",
   "unpkg": "dist/client.umd.js",

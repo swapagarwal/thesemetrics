@@ -12,12 +12,12 @@ resource "acme_certificate" "default" {
   account_key_pem = local.private_key_pem
   
   common_name               = "thesemetrics.xyz"
-  subject_alternative_names = ["*.thesemetrics.xyz"]
+  subject_alternative_names = ["pixel.thesemetrics.xyz", "api.thesemetrics.xyz"]
 
   dns_challenge {
     provider = "cloudflare"
     config = {
-      CF_DNS_API_TOKEN = local.cloudflare_token
+      CLOUDFLARE_DNS_API_TOKEN = local.cloudflare_token
     }
   }
 }
