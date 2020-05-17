@@ -38,11 +38,3 @@ resource "digitalocean_vpc" "default" {
   region   = var.region
   ip_range = "10.10.10.0/24"
 }
-
-resource "digitalocean_project_resources" "vpc" {
-  project = digitalocean_project.default.id
-
-  resources = [
-    digitalocean_vpc.default.urn
-  ]
-}

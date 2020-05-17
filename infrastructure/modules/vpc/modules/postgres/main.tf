@@ -4,14 +4,15 @@ locals {
 
   version = "11"
 
-  db_name    = "analytics"
-  app_user   = "app"
-  pixel_user = "app"
-  job_user   = "job"
+  db_name = "analytics"
 
-  app_pool_size   = "6"
-  pixel_pool_size = "14"
-  job_pool_size   = "2"
+  app_user   = "doadmin"
+  pixel_user = "doadmin"
+  job_user   = "doadmin"
+
+  app_pool_size   = 6
+  pixel_pool_size = 14
+  job_pool_size   = 2
 
   project = var.project
   region  = var.region
@@ -45,7 +46,7 @@ resource "digitalocean_database_firewall" "pg_firewall" {
   }
 }
 
-resource "digitalocean_database_db" "analytics" {
+resource "digitalocean_database_db" "default" {
   cluster_id = digitalocean_database_cluster.postgres.id
   name       = local.db_name
 }
@@ -56,7 +57,7 @@ resource "digitalocean_database_connection_pool" "pg_app_connection" {
   name    = "pg-thesemetrics-app-pool"
   mode    = "transaction"
   size    = local.app_pool_size
-  db_name = digitalocean_database_db.analytics.name
+  db_name = digitalocean_database_db.default.name
   user    = local.app_user
 }
 
@@ -66,7 +67,7 @@ resource "digitalocean_database_connection_pool" "pg_pixel_connection" {
   name    = "pg-thesemetrics-pixel-pool"
   mode    = "transaction"
   size    = local.pixel_pool_size
-  db_name = digitalocean_database_db.analytics.name
+  db_name = digitalocean_database_db.default.name
   user    = local.pixel_user
 }
 
@@ -76,6 +77,6 @@ resource "digitalocean_database_connection_pool" "pg_job_connection" {
   name    = "pg-thesemetrics-job-pool"
   mode    = "transaction"
   size    = local.job_pool_size
-  db_name = digitalocean_database_db.analytics.name
+  db_name = digitalocean_database_db.default.name
   user    = local.job_user
 }
