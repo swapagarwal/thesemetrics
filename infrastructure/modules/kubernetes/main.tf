@@ -387,14 +387,14 @@ resource "kubernetes_ingress" "default" {
     }
 
     rule {
+      host = "pixel.thesemetrics.xyz"
+
       http {
         path {
           backend {
             service_name = kubernetes_service.pixel.metadata[0].name
             service_port = 80
           }
-
-          path = "/*.gif"
         }
       }
     }

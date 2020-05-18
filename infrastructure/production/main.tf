@@ -42,6 +42,10 @@ provider "kubernetes" {
   cluster_ca_certificate = module.vpc.kubernetes.cluster_ca_certificate
 }
 
+module "ingress" {
+  source = "../modules/ingress"
+}
+
 module "kubernetes" {
   source = "../modules/kubernetes"
 
