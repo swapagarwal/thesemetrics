@@ -1,3 +1,14 @@
+terraform {
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "znck"
+
+    workspaces {
+      name = "thesemetrics"
+    }
+  }
+}
+
 provider "digitalocean" {
   version = "~> 1.18"
 
