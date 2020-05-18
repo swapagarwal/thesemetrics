@@ -61,7 +61,7 @@ resource "kubernetes_secret" "docker" {
 resource "kubernetes_secret" "database" {
   metadata {
     namespace = local.namespace
-    name      = "databse"
+    name      = "database"
   }
 
   data = {
