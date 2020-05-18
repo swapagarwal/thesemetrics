@@ -1,20 +1,20 @@
+resource "kubernetes_namespace" "nginx" {
+  metadata {
+    name = "ingress-nignx"
+
+    labels = {
+      "app.kubernetes.io/name"     = "ingress-nignx"
+      "app.kubernetes.io/instance" = "ingress-nignx"
+    }
+  }
+}
+
 locals {
-  namespace = "ingress-nignx"
+  namespace = kubernetes_namespace.nginx.metadata[0].name
 
   ingress    = "ingress-nignx"
   admission  = "ingress-nginx-admission"
   controller = "ingress-nginx-controller"
-}
-
-resource "kubernetes_namespace" "nginx" {
-  metadata {
-    name = local.namespace
-
-    labels = {
-      "app.kubernetes.io/name"     = local.ingress
-      "app.kubernetes.io/instance" = local.ingress
-    }
-  }
 }
 
 resource "kubernetes_service_account" "nginx" {
