@@ -344,7 +344,7 @@ resource "kubernetes_deployment" "controller_depolyment" {
         container {
           name              = "controller"
           image             = "quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.32.0"
-          image_pull_policy = "IfNotPreset"
+          image_pull_policy = "IfNotPresent"
           lifecycle {
             pre_stop {
               exec {
@@ -422,7 +422,7 @@ resource "kubernetes_deployment" "controller_depolyment" {
           }
 
           volume_mount {
-            name       = "webhook-cer"
+            name       = "webhook-cert"
             mount_path = "/usr/local/certificates/"
             read_only  = true
           }
@@ -467,12 +467,14 @@ resource "kubernetes_validating_webhook_configuration" "admission" {
 
     rule {
       api_groups   = ["extension", "networking.k8s.io"]
-      api_versions = ["v1beta1"]
+      api_versions = ["v1"]
       operations   = ["CREATE", "UPDATE"]
       resources    = ["ingresses"]
     }
 
-    failure_policy = "Fail"
+    admission_review_versions = ["v1"]
+    failure_policy            = "Fail"
+    side_effects              = "None"
     client_config {
       service {
         namespace = local.namespace
@@ -543,7 +545,7 @@ resource "kubernetes_cluster_role_binding" "admission" {
 
 resource "kubernetes_job" "create_admission" {
   metadata {
-    name = "ingress-nginx-admission-create"
+    name      = "ingress-nginx-admission-create"
     namespace = local.namespace
 
     labels = {
@@ -605,7 +607,7 @@ resource "kubernetes_job" "create_admission" {
 
 resource "kubernetes_job" "patch_admission" {
   metadata {
-    name = "ingress-nginx-admission-patch"
+    name      = "ingress-nginx-admission-patch"
     namespace = local.namespace
 
     labels = {
@@ -666,7 +668,7 @@ resource "kubernetes_job" "patch_admission" {
 
 resource "kubernetes_role" "admission" {
   metadata {
-    name = local.admission
+    name      = local.admission
     namespace = local.namespace
 
     labels = {
