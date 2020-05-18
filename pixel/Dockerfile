@@ -8,4 +8,6 @@ RUN npm install --only=prod
 
 ADD dist/ /app/dist/
 
+ENV NODE_ENV "production"
+
 ENTRYPOINT ["npm", "start"]

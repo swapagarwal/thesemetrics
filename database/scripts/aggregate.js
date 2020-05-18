@@ -17,6 +17,9 @@ async function run(date = yesterday()) {
     (await typeorm.createConnection({
       type: 'postgres',
       url: config.url,
+      ssl: process.env.NODE_ENV !== 'production' ? false : {
+        ca: Buffer.from(process.env.POSTGRES_CERTIFICATE),
+      },
     }));
 
   await connection.transaction(async (connection) => {

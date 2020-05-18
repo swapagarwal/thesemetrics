@@ -1,6 +1,10 @@
 locals {
   namespace = "thesemetrics"
 
+  app_version   = "0.1.2"
+  job_version   = "0.1.4"
+  pixel_version = "0.1.2"
+
   labels = {
     app           = "TheseMetrics"
     pixel_service = "Pixel"
@@ -44,7 +48,7 @@ resource "kubernetes_secret" "certificate" {
 resource "kubernetes_secret" "docker" {
   metadata {
     namespace = local.namespace
-    name      = "regcred"
+    name      = "docker-credentials"
   }
 
   data = {
@@ -54,11 +58,27 @@ resource "kubernetes_secret" "docker" {
   type = "kubernetes.io/dockerconfigjson"
 }
 
+resource "kubernetes_secret" "database" {
+  metadata {
+    namespace = local.namespace
+    name      = "databse"
+  }
+
+  data = {
+    app   = var.app_database_uri
+    pixel = var.pixel_database_uri
+    job   = var.job_database_uri
+
+    ca = var.db_certificate
+  }
+}
+
 // ------------------- Jobs -------------------------
 
 resource "kubernetes_job" "db_migrate" {
   metadata {
-    name = "db-migrate"
+    name      = "db-migrate"
+    namespace = local.namespace
 
     annotations = {
       "helm.sh/hook"               = "pre-install,pre-upgrade"
@@ -79,11 +99,26 @@ resource "kubernetes_job" "db_migrate" {
 
         container {
           name  = "db-migrate"
-          image = "docker.pkg.github.com/znck/thesemetrics/db:latest"
+          image = "docker.pkg.github.com/znck/thesemetrics/db:${local.job_version}"
 
           env {
-            name  = "POSTGRES_URL"
-            value = var.job_database_uri
+            name = "POSTGRES_URL"
+            value_from {
+              secret_key_ref {
+                name = kubernetes_secret.database.metadata[0].name
+                key  = "job"
+              }
+            }
+          }
+
+          env {
+            name = "POSTGRES_CERTIFICATE"
+            value_from {
+              secret_key_ref {
+                name = kubernetes_secret.database.metadata[0].name
+                key  = "ca"
+              }
+            }
           }
 
           command = ["npm", "run", "aggregate"]
@@ -100,7 +135,8 @@ resource "kubernetes_job" "db_migrate" {
 
 resource "kubernetes_cron_job" "db_aggregate" {
   metadata {
-    name = "db-aggregate"
+    name      = "db-aggregate"
+    namespace = local.namespace
   }
 
   spec {
@@ -122,11 +158,26 @@ resource "kubernetes_cron_job" "db_aggregate" {
           spec {
             container {
               name  = "db-aggregate"
-              image = "docker.pkg.github.com/znck/thesemetrics/db:latest"
+              image = "docker.pkg.github.com/znck/thesemetrics/db:${local.job_version}"
 
               env {
-                name  = "POSTGRES_URL"
-                value = var.job_database_uri
+                name = "POSTGRES_URL"
+                value_from {
+                  secret_key_ref {
+                    name = kubernetes_secret.database.metadata[0].name
+                    key  = "job"
+                  }
+                }
+              }
+
+              env {
+                name = "POSTGRES_CERTIFICATE"
+                value_from {
+                  secret_key_ref {
+                    name = kubernetes_secret.database.metadata[0].name
+                    key  = "ca"
+                  }
+                }
               }
 
               command = ["npm", "run", "aggregate"]
@@ -174,15 +225,30 @@ resource "kubernetes_deployment" "pixel" {
       spec {
         container {
           name  = "pixel"
-          image = "docker.pkg.github.com/znck/thesemetrics/pixel:latest"
+          image = "docker.pkg.github.com/znck/thesemetrics/pixel:${local.pixel_version}"
 
           port {
             container_port = 3001
           }
 
           env {
-            name  = "POSTGRES_URL"
-            value = var.pixel_database_uri
+            name = "POSTGRES_URL"
+            value_from {
+              secret_key_ref {
+                name = kubernetes_secret.database.metadata[0].name
+                key  = "pixel"
+              }
+            }
+          }
+
+          env {
+            name = "POSTGRES_CERTIFICATE"
+            value_from {
+              secret_key_ref {
+                name = kubernetes_secret.database.metadata[0].name
+                key  = "ca"
+              }
+            }
           }
         }
 
@@ -224,15 +290,30 @@ resource "kubernetes_deployment" "app" {
       spec {
         container {
           name  = "app"
-          image = "docker.pkg.github.com/znck/thesemetrics/app:latest"
+          image = "docker.pkg.github.com/znck/thesemetrics/app:${local.app_version}"
 
           port {
             container_port = 3000
           }
 
           env {
-            name  = "POSTGRES_URL"
-            value = var.app_database_uri
+            name = "POSTGRES_URL"
+            value_from {
+              secret_key_ref {
+                name = kubernetes_secret.database.metadata[0].name
+                key  = "app"
+              }
+            }
+          }
+
+          env {
+            name = "POSTGRES_CERTIFICATE"
+            value_from {
+              secret_key_ref {
+                name = kubernetes_secret.database.metadata[0].name
+                key  = "ca"
+              }
+            }
           }
         }
 
@@ -299,6 +380,7 @@ resource "kubernetes_ingress" "default" {
   }
 
   spec {
+
     backend {
       service_name = kubernetes_service.app.metadata[0].name
       service_port = 80

@@ -42,6 +42,7 @@ module "kubernetes" {
   job_database_uri      = module.vpc.job_database_uri
   tls_certifacte        = module.acme.certificate
   tls_private_key       = module.acme.private_key
+  db_certificate        = var.db_certificate
 }
 
 provider "cloudflare" {
@@ -53,5 +54,5 @@ provider "cloudflare" {
 module "cloudflare" {
   source = "../modules/cloudflare"
 
-  loadbalancer_ip = module.kubernetes.load_balancers[0].ip
+  # loadbalancer_ip = module.kubernetes.load_balancers[0].ip
 }

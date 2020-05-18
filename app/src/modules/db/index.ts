@@ -20,6 +20,11 @@ export * from '@thesemetrics/database';
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: process.env.POSTGRES_URL,
+      ssl: __DEV__
+        ? false
+        : {
+            ca: Buffer.from(process.env.POSTGRES_CERTIFICATE!),
+          },
       entities: [
         User,
         Team,

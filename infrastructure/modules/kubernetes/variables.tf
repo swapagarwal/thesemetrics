@@ -8,6 +8,10 @@ variable "pixel_replicas" {
   default = 3
 }
 
+variable "db_certificate" {
+  type = string
+}
+
 variable "docker_registry_token" {
   type = string
 }

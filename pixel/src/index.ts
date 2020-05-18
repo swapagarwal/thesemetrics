@@ -8,7 +8,6 @@ import { PageView, Project, ProjectEvent, Team, User } from '@thesemetrics/datab
 import { PixelController } from './PixelController';
 import { ProjectService } from './ProjectService';
 
-
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler) {
@@ -24,6 +23,11 @@ export class LoggingInterceptor implements NestInterceptor {
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: process.env.POSTGRES_URL,
+      ssl: __DEV__
+        ? false
+        : {
+            ca: Buffer.from(process.env.POSTGRES_CERTIFICATE!),
+          },
       entities: [User, Team, Project, ProjectEvent, PageView],
       synchronize: false,
     }),
