@@ -11,10 +11,9 @@ export class StatsController {
   @Get('/stats')
   async getStats(
     @Query('domain') domain: string,
-    @Query('path') path: string,
+    @Query('path') path: string = '*',
     @Res() response: FastifyReply<Response>
   ) {
-    if (path !== '*') path = '/' + path;
     const project = await this.projects.findProjectByDomain(domain);
     const devices = await this.stats.getDevices(project);
     const pageviews = await this.stats.getPageViews(project, path);
