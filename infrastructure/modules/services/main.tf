@@ -1,6 +1,6 @@
 # Images
 locals {
-  version = "0.1.8"
+  version = "0.1.9"
 }
 
 resource "docker_image" "traefik" {
