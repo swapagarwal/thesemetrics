@@ -1,22 +1,17 @@
-import { ProjectService } from '@/modules/project';
 import { ReferrerKind } from '@/modules/db';
+import { ProjectService } from '@/modules/project';
 import { StatsService } from '@/modules/stats/StatsService';
-import { Controller, Get, Param, Res } from '@nestjs/common';
+import { Controller, Get, Query, Res } from '@nestjs/common';
 import { FastifyReply } from 'fastify';
 
 @Controller()
 export class StatsController {
   constructor(private readonly stats: StatsService, private readonly projects: ProjectService) {}
 
-  @Get('/stats/:domain')
-  async getAllStats(@Param('domain') domain: string, @Res() response: FastifyReply<Response>) {
-    return this.getStats(domain, '*', response);
-  }
-
-  @Get('/stats/:domain/:path')
+  @Get('/stats')
   async getStats(
-    @Param('domain') domain: string,
-    @Param('path') path: string,
+    @Query('domain') domain: string,
+    @Query('path') path: string,
     @Res() response: FastifyReply<Response>
   ) {
     if (path !== '*') path = '/' + path;

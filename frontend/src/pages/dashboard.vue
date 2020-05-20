@@ -37,10 +37,12 @@ export default defineComponent({
     watch(
       () => [domain.value, resource.value],
       async ([domain, resource]) => {
-        const base = __DEV__ ? 'http://localhost:3000' : 'https://api.thesemetrics.xyz';
-        const url = `${base}/stats/${domain}${resource === '*' ? '' : resource}`;
+        const base = 'https://api.thesemetrics.xyz';
+        const url = `${base}/stats?domain=${encodeURIComponent(domain)}&resource=${encodeURIComponent(
+          resource === '*' ? '' : resource
+        )}`;
         const response = await fetch(url);
-        console.log(response)
+
         if (response.ok && response.status === 200) {
           const result = await response.json();
 
@@ -82,7 +84,7 @@ export default defineComponent({
       </label>
     </div>
 
-    <div :class="$style.graph" role="alert" style="color: red; text-align: center">
+    <div :class="$style.graph" role="alert" style="color: red; text-align: center;">
       {{ error }}
     </div>
   </div>
@@ -106,7 +108,7 @@ export default defineComponent({
         <li v-for="item of resources">
           <label>
             <input type="radio" :value="item.path" v-model="resource" />
-            {{ item.path === '*' ? 'Total' : item.path }} — {{ item.count }} 
+            {{ item.path === '*' ? 'Total' : item.path }} — {{ item.count }}
           </label>
         </li>
       </ul>
