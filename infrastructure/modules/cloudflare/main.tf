@@ -1,7 +1,5 @@
 locals {
   zone = "thesemetrics.xyz"
-
-  # ip = var.loadbalancer_ip
 }
 
 resource "cloudflare_zone" "default" {
@@ -28,6 +26,53 @@ resource "cloudflare_record" "_www" {
   proxied = false
 }
 
+resource "cloudflare_record" "pixel" {
+  zone_id = cloudflare_zone.default.id
+
+  for_each = var.loadbalancer_ips
+
+  name    = "pixel"
+  value   = each.key
+  type    = "A"
+  ttl     = 1
+  proxied = true
+}
+
+resource "cloudflare_record" "app" {
+  zone_id = cloudflare_zone.default.id
+
+  for_each = var.loadbalancer_ips
+
+  name    = "api"
+  value   = each.key
+  type    = "A"
+  ttl     = 1
+  proxied = true
+}
+
+resource "cloudflare_record" "traefik" {
+  zone_id = cloudflare_zone.default.id
+
+  for_each = var.loadbalancer_ips
+
+  name    = "traefik"
+  value   = each.key
+  type    = "A"
+  ttl     = 1
+  proxied = true
+}
+
+resource "cloudflare_record" "portainer" {
+  zone_id = cloudflare_zone.default.id
+
+  for_each = var.loadbalancer_ips
+
+  name    = "portainer"
+  value   = each.key
+  type    = "A"
+  ttl     = 1
+  proxied = true
+}
 
 resource "cloudflare_zone_settings_override" "default" {
   zone_id = cloudflare_zone.default.id

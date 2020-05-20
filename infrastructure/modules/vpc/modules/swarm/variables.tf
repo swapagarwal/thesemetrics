@@ -1,6 +1,13 @@
+variable "project" {
+  type = string
+}
+
 variable "region" {
-  type    = string
-  default = "nyc1"
+  type = string
+}
+
+variable "tag" {
+  type = string
 }
 
 variable "tls" {
@@ -15,4 +22,8 @@ variable "ssh_key" {
     public  = string
     private = string
   })
+}
+
+variable "private_network_uuid" {
+  type = string
 }

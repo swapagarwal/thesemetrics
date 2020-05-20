@@ -1,2 +1,3 @@
 *
 !infrastructure/**/*.tf
+!infrastructure/modules/traefik/traefik.toml

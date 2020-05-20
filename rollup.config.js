@@ -43,6 +43,8 @@ function getExternal(packageName) {
   const build = getPackageField(packageName, 'build') || {};
 
   return [
+    'fs',
+    'path',
     ...Object.keys(getPackageField(packageName, 'dependencies') || {}),
     ...Object.keys(getPackageField(packageName, 'peerDependencies') || {}),
     ...(build.external || []),

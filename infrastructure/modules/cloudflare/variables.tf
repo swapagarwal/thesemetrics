@@ -1,3 +1,3 @@
-# variable "loadbalancer_ip" {
-#   type = string
-# }
+variable "loadbalancer_ips" {
+  type = set(string)
+}

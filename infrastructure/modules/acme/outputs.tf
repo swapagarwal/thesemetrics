@@ -1,5 +1,5 @@
 output "certificate" {
-  value = "${acme_certificate.default.issuer_pem}\n${acme_certificate.default.certificate_pem}"
+  value = acme_certificate.default.certificate_pem
 }
 
 output "private_key" {

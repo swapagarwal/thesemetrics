@@ -1,16 +1,34 @@
-if (process.env.NODE_ENV !== 'production') {
-  process.env.POSTGRES_URL = process.env.POSTGRES_URL || 'postgres://user:pass@localhost:5432/analytics';
+const fs = require('fs');
+
+function config() {
+  let url = process.env.POSTGRES_URL;
+  let ca = process.env.POSTGRES_CERTIFICATE;
+
+  if (!url) {
+    if (fs.existsSync('/var/secrets/database_uri')) {
+      url = fs.readFileSync('/var/secrets/database_uri', { encoding: 'utf-8' });
+    } else if (process.env.NODE_ENV !== 'production') {
+      url = 'postgres://user:pass@localhost:5432/analytics';
+    }
+  }
+
+  if (!ca) {
+    if (fs.existsSync('/var/secrets/database_ssl_certificate')) {
+      ca = fs.readFileSync('/var/secrets/database_ssl_certificate', { encoding: 'utf-8' });
+    }
+
+    if (ca && !ca.trim().startsWith('-----BEGIN CERTIFICATE-----')) ca = undefined;
+  }
+
+  return {
+    type: 'postgres',
+    url: url,
+    ssl: ca ? { ca } : false,
+  };
 }
 
 module.exports = {
-  type: 'postgres',
-  url: process.env.POSTGRES_URL,
-  ssl:
-    process.env.NODE_ENV !== 'production'
-      ? false
-      : {
-          ca: Buffer.from(process.env.POSTGRES_CERTIFICATE),
-        },
+  ...config(),
   entities: [],
   migrations: ['migrations/*.js'],
   cli: {

@@ -13,7 +13,12 @@ output "job_database_uri" {
   description = "Aggregator Database Connection"
 }
 
-output "kubernetes" {
-  value       = module.kubernetes.config
-  description = "Kubernetes"
+output "ips" {
+  value       = [module.swarm.loadbalancer_ip]
+  description = "Load balancer IPs"
+}
+
+output "docker_host" {
+  value       = module.swarm.docker_host
+  description = "Docker Host"
 }

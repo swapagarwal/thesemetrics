@@ -2,22 +2,34 @@ provider "docker" {
   version = "~> 2.7"
 }
 
-module "database" {
+module "db" {
   source = "../modules/postgres"
+
+  network_id = module.services.network_id
 }
 
+module "services" {
+  source = "../modules/services"
 
-provider "kubernetes" {
-  version = "~> 1.11"
+  traefik_token = "admin:$2y$10$3LLtrRvMyRqUJQTBRRvcuuVG8ee0LEJZ1H3lnjL26ksMzBLCRkGqG" // admin:admin
+
+  database_uri = {
+    app   = module.db.uri
+    job   = module.db.uri
+    pixel = module.db.uri
+  }
+
+
+  database_ssl_certificate = "IGNORE"
+
+  domain = "thesemetrics.xyz.develop"
+
+  ingress_port = 8081
+  
+  scale = {
+    app     = 2
+    pixel   = 2
+    ingress = 1
+  }
 }
 
-module "kubernetes" {
-  source = "../modules/kubernetes"
-
-  app_replicas          = 1
-  pixel_replicas        = 1
-  docker_registry_token = var.docker_registry_token
-  app_database_uri      = module.database.url
-  pixel_database_uri    = module.database.url
-  job_database_uri      = module.database.url
-}

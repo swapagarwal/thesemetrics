@@ -9,19 +9,26 @@ terraform {
   }
 }
 
+provider "null" {
+  version = "~> 2.1"
+}
+
 provider "digitalocean" {
   version = "~> 1.18"
 
   token = var.do_token
 }
 
-module "vpc" {
-  source = "../modules/vpc"
-}
-
 provider "acme" {
   version    = "~> 1.5"
   server_url = "https://acme-v02.api.letsencrypt.org/directory"
+}
+
+
+provider "cloudflare" {
+  version = "~> 2.6"
+
+  api_token = var.cloudflare_token
 }
 
 module "acme" {
@@ -31,43 +38,58 @@ module "acme" {
   private_key_pem  = var.private_key_pem
 }
 
-provider "kubernetes" {
-  version = "~> 1.11"
+module "vpc" {
+  source = "../modules/vpc"
 
-  load_config_file = false
+  ssh_key = {
+    private = var.deploy_ssh_private_key
+    public  = var.deploy_ssh_public_key
+  }
 
-  host  = module.vpc.kubernetes.host
-  token = module.vpc.kubernetes.token
-
-  cluster_ca_certificate = module.vpc.kubernetes.cluster_ca_certificate
-}
-
-module "ingress" {
-  source = "../modules/ingress"
-}
-
-module "kubernetes" {
-  source = "../modules/kubernetes"
-
-  app_replicas          = 1
-  pixel_replicas        = 1
-  docker_registry_token = var.docker_registry_token
-  app_database_uri      = module.vpc.app_database_uri
-  pixel_database_uri    = module.vpc.pixel_database_uri
-  job_database_uri      = module.vpc.job_database_uri
-  tls_certifacte        = module.acme.certificate
-  tls_private_key       = module.acme.private_key
-  db_certificate        = var.db_certificate
-}
-
-provider "cloudflare" {
-  version = "~> 2.6"
-
-  api_token = var.cloudflare_token
+  tls = {
+    private_key = module.acme.private_key
+    certificate = module.acme.certificate
+  }
 }
 
 module "cloudflare" {
   source = "../modules/cloudflare"
 
-  # loadbalancer_ip = module.kubernetes.load_balancers[0].ip
+  loadbalancer_ips = module.vpc.ips
+}
+
+provider "docker" {
+  version = "~> 2.7"
+
+  host = "ssh://root@161.35.252.32"
+
+  registry_auth {
+    address  = "docker.pkg.github.com"
+    username = "znck"
+    password = var.docker_registry_token
+  }
+}
+
+module "services" {
+  source = "../modules/services"
+
+  traefik_token = var.traefik_token
+
+  database_uri = {
+    app   = module.vpc.app_database_uri
+    job   = module.vpc.job_database_uri
+    pixel = module.vpc.pixel_database_uri
+  }
+
+  database_ssl_certificate = var.db_certificate
+
+  domain = "thesemetrics.xyz"
+
+  ingress_port = 80
+
+  scale = {
+    app     = 2
+    pixel   = 4
+    ingress = 1
+  }
 }

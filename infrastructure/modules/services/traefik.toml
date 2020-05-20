@@ -1,0 +1,17 @@
+[api]
+  dashboard = true
+
+[ping]
+
+[accessLog]
+
+[providers.docker]
+  exposedByDefault = false
+  swarmMode = true
+
+[metrics]
+  [metrics.datadog]
+    address = "10.130.0.2:8125"
+    addEntryPointsLabels = true
+    addServicesLabels = true
+    pushInterval = "10s"

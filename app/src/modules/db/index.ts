@@ -9,6 +9,7 @@ import {
   DailyAggregatePageView,
   DailyAggregateReferrerPageView,
   ProjectEvent,
+  config,
 } from '@thesemetrics/database';
 import { APP_FILTER } from '@nestjs/core';
 import { DatabaseExceptionFilter } from '@/modules/db/DatabaseExceptionFilter';
@@ -18,13 +19,7 @@ export * from '@thesemetrics/database';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      url: process.env.POSTGRES_URL,
-      ssl: __DEV__
-        ? false
-        : {
-            ca: Buffer.from(process.env.POSTGRES_CERTIFICATE!),
-          },
+      ...config(),
       entities: [
         User,
         Team,

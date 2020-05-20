@@ -18,9 +18,14 @@ async function bootstrap() {
     })
   );
 
-  app.enableCors()
-
-  app.listen(3000);
+  app.enableCors();
+  return app.listen(3000, '0.0.0.0', (error, address) => {
+    if (error) console.error(error);
+    else console.log(`app@0.1.5 listening at ${address}`);
+  });
 }
 
-bootstrap();
+bootstrap().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

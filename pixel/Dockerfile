@@ -1,5 +1,7 @@
 FROM node:12-alpine
 
+RUN apk add --no-cache curl
+
 WORKDIR /app
 
 ADD package.json /app/package.json
