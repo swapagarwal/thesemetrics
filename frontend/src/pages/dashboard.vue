@@ -38,13 +38,13 @@ export default defineComponent({
       () => [domain.value, resource.value],
       async ([domain, resource]) => {
         const base = 'https://api.thesemetrics.xyz';
-        const url = `${base}/stats?domain=${encodeURIComponent(domain)}&resource=${encodeURIComponent(
-          resource === '*' ? '' : resource
-        )}`;
+        const url = `${base}/stats?domain=${encodeURIComponent(domain)}&path=${encodeURIComponent(resource||'*')}`;
         const response = await fetch(url);
 
         if (response.ok && response.status === 200) {
           const result = await response.json();
+
+          console.log(result)
 
           devices.value = result.devices;
           pageviews.value = result.pageviews;

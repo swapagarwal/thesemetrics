@@ -57,6 +57,7 @@ export default defineComponent({
     watch(
       () => pageviews.value,
       (pageviews) => {
+        console.log(pageviews)
         chart.updateSeries([{ name: 'pageviews', data: pageviews }], true);
       }
     );
