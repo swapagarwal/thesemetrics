@@ -15,7 +15,7 @@ export interface PageViewOptions extends Omit<PageView, 'id' | 'createdAt' | 'cr
     browserVersion: string;
     osVersion: string;
     referrer: string;
-    utm: Record<string, string>
+    utm: Record<string, string>;
   }>;
 }
 
@@ -49,6 +49,10 @@ export class ProjectService {
     if (!(await this.projects.count({ where: { domain } }))) {
       // Check DNS entry exists.
       if (!__DEV__ && /^localhost(:[0-9]+)?$/.test(domain)) {
+        return false;
+      }
+
+      if (/--.*\.netlify.app$/.test(domain)) {
         return false;
       }
 
@@ -93,7 +97,7 @@ export class ProjectService {
       }
     }
 
-    console.log(event)
+    console.log(event);
 
     await this.pageviews.save({
       project,
@@ -125,7 +129,7 @@ export class ProjectService {
 
   public async addEvent(event: EventOptions): Promise<void> {
     const project = await this.findProject(event.domain);
-    
+
     await this.events.save({
       project,
 
