@@ -12,5 +12,6 @@ module.exports = {
     'ts-jest': {
       packageJson: '<rootDir>/package.json',
     },
+    __DEV__: false,
   },
 };
