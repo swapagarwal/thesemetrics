@@ -13,16 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup global node_modules cache
-        uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-global-node-modules
-
       - name: Setup node_modules cache
         uses: actions/cache@v1
         env:
-          cache-name: cache-node-modules
+          cache-name: pnpm-store
         with:
           path: .pnpm-store
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -31,7 +25,7 @@ jobs:
             ${{ runner.os }}-build-
 
       - name: Install pnpm
-        run: hash pnpm 2>/dev/null || sudo npm install --global pnpm
+        run: hash pnpm 2>/dev/null || curl -L https://unpkg.com/@pnpm/self-installer | node
 
       - name: Install dependencies and build packages
         run: |
