@@ -9,12 +9,12 @@ export class ProjectEvent {
   @Column() path!: string
   @Column() session?: string
 
-  @Column({ type: 'time without time zone' }) timestamp?: Date
+  @Column({ type: 'timestamp without time zone' }) timestamp?: Date
 
   @Column({ type: 'jsonb' }) data!: Record<string, any>
   @Column() createdOn!: Date
 
-  @ManyToOne(() => Project, (project: IProject) => project.events)
+  @ManyToOne(() => Project)
   project?: IProject
 }
 

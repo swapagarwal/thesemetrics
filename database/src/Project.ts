@@ -1,5 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { IProjectEvent, ProjectEvent } from './ProjectEvent';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ITeam, Team } from './Team';
 
 export enum ProjectType {
@@ -20,9 +19,6 @@ export class Project {
   @Column({ type: 'timestamp with time zone' }) updatedAt!: Date;
 
   @ManyToOne(() => Team, (team) => team.projects) team?: ITeam;
-
-  @OneToMany(() => ProjectEvent, (event: IProjectEvent) => event.project)
-  events?: IProjectEvent;
 }
 
 export interface IProject extends Project {}
