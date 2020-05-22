@@ -10,7 +10,7 @@ export class DailyAggregatePageView {
   @Column() count!: number
   @Column() uniqueCount!: number
 
-  @ManyToOne(() => Project, (project: IProject) => project.events)
+  @ManyToOne(() => Project)
   project?: IProject
 }
 

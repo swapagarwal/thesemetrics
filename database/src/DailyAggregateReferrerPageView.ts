@@ -20,7 +20,7 @@ export class DailyAggregateReferrerPageView {
   @Column() path!: string
   @Column() count!: number
 
-  @ManyToOne(() => Project, (project: IProject) => project.events)
+  @ManyToOne(() => Project)
   project?: IProject
 }
 

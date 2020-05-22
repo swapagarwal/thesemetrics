@@ -13,7 +13,7 @@ export class DailyAggregateDevice {
   @Column() osVersion!: string
   @Column() count!: number
 
-  @ManyToOne(() => Project, (project: IProject) => project.events)
+  @ManyToOne(() => Project)
   project?: IProject
 }
 
