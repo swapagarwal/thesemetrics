@@ -9,7 +9,7 @@ import { config, PageView, Project, ProjectEvent, Team, User } from '@thesemetri
 import { FastifyRequest } from 'fastify';
 import { HealthController } from 'src/HealthController';
 import { PixelController } from './PixelController';
-import { ProjectService } from './ProjectService';
+import { PixelService } from './PixelService';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
@@ -32,7 +32,7 @@ export class LoggingInterceptor implements NestInterceptor {
     }),
     TypeOrmModule.forFeature([User, Team, Project, ProjectEvent, PageView]),
   ],
-  providers: [ProjectService],
+  providers: [PixelService],
   controllers: [PixelController, HealthController],
 })
 class AppModule {}

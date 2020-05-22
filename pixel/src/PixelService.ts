@@ -37,7 +37,7 @@ export interface PageReadEventOptions extends BaseEventOptions<{ duration: numbe
 export type EventOptions = PageReadEventOptions;
 
 @Injectable()
-export class ProjectService {
+export class PixelService {
   constructor(
     @InjectRepository(Team) private readonly teams: Repository<Team>,
     @InjectRepository(Project) private readonly projects: Repository<Project>,
@@ -47,8 +47,7 @@ export class ProjectService {
 
   public async isDomainAllowed(domain: string): Promise<boolean> {
     if (!(await this.projects.count({ where: { domain } }))) {
-      // Check DNS entry exists.
-      if (!__DEV__ && /^localhost(:[0-9]+)?$/.test(domain)) {
+      if (/^localhost(:[0-9]+)?$/.test(domain)) {
         return false;
       }
 
@@ -81,23 +80,29 @@ export class ProjectService {
     });
   }
 
+  private normalizeReferrer(referrer: string) {
+    if (/^google.([a-z]{2,3}|co\.[a-z]{2})(\/|$)/.test(referrer)) {
+      return 'google';
+    } else if (/^facebook.com(\/|$)/.test(referrer)) {
+      return 'facebook';
+    } else if (/^twitter.com(\/|$)/.test(referrer) || /^t.co(\/|$)/.test(referrer)) {
+      return 'twitter';
+    } else if (/^linkedin.com(\/|$)/.test(referrer)) {
+      return 'linkedin';
+    } else if (/^github.com(\/|$)/.test(referrer)) {
+      return 'github';
+    }
+  }
+
   public async addPageView(event: PageViewOptions): Promise<void> {
     const project = await this.findProject(event.domain);
 
     if (event.referrer) {
       event.data.referrer = event.referrer.split('?')[0];
-      event.referrer = event.data.referrer.replace(/^https?:\/\/((www|l|m)\.)?/i, '').replace(/\/+$/, '');
-
-      if (/^google.([a-z]{2,3}|co\.[a-z]{2})(\/|$)/.test(event.referrer)) {
-        event.referrer = 'google';
-      } else if (/^facebook.([a-z]{2,3}|co\.[a-z]{2})(\/|$)/.test(event.referrer)) {
-        event.referrer = 'facebook';
-      } else if (/^twitter.([a-z]{2,3}|co\.[a-z]{2})(\/|$)/.test(event.referrer) || /^t.co\//.test(event.referrer)) {
-        event.referrer = 'twitter';
-      }
+      event.referrer = this.normalizeReferrer(
+        event.data.referrer.replace(/^(https?:\/\/)?((www|l|m)\.)?/i, '').replace(/\/+$/, '')
+      );
     }
-
-    console.log(event);
 
     await this.pageviews.save({
       project,
