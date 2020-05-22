@@ -36,20 +36,30 @@ importers:
       pg: 8.1.0_pg@8.1.0
       reflect-metadata: 0.1.13
       rxjs: 6.5.5
+      sql-formatter: 2.3.3
       typeorm: 0.2.24
       useragent: 2.3.0
     devDependencies:
+      '@nestjs/testing': 7.0.13_d9b12555fb0bc5547ca2c18d363479eb
       '@thesemetrics/database': 'link:../database'
+      '@types/jest': 25.2.3
       '@types/node': 13.13.5
+      '@types/sql-formatter': 2.3.0
       '@types/useragent': 2.1.1
+      jest: 26.0.1
+      sql.js: 1.2.2
+      ts-jest: 26.0.0_jest@26.0.1
     specifiers:
       '@nestjs/common': ^7.0.11
       '@nestjs/core': ^7.0.11
       '@nestjs/graphql': ^7.3.9
       '@nestjs/platform-fastify': ^7.0.11
+      '@nestjs/testing': ^7.0.13
       '@nestjs/typeorm': ^7.0.0
       '@thesemetrics/database': 'link:../database'
+      '@types/jest': ^25.2.3
       '@types/node': ^13.13.5
+      '@types/sql-formatter': ^2.3.0
       '@types/useragent': ^2.1.1
       class-transformer: ^0.2.3
       class-validator: ^0.12.2
@@ -57,9 +67,13 @@ importers:
       fastify: ^2.14.1
       graphql: ^14
       graphql-tools: ^5.0.0
+      jest: ^26.0.1
       pg: ^8.1.0
       reflect-metadata: ^0.1.13
       rxjs: ^6.5.5
+      sql-formatter: ^2.3.3
+      sql.js: ^1.2.2
+      ts-jest: ^26.0.0
       typeorm: ^0.2.24
       useragent: ^2.3.0
   clients/javascript:
@@ -1298,6 +1312,10 @@ packages:
       '@types/mime': 2.0.2
     resolution:
       integrity: sha512-jTDt0o/YbpNwZbQmE/+2e+lfjJEJJR0I3OFaKQKPWkASkCoW3i6fsUnqudSMcNAfbtmADGu8f4MV4q+GqULmug==
+  /@types/sql-formatter/2.3.0:
+    dev: true
+    resolution:
+      integrity: sha512-Xh9kEOaKWhm3vYD5lUjYFFiSfpN4y3/iQCJUAVwFaQ1rVvHs4WXTa5C8E7gyF3kxwsMS8KgttW7WBAPtFlsvAg==
   /@types/stack-utils/1.0.1:
     dev: true
     resolution:
@@ -7447,6 +7465,16 @@ packages:
   /sprintf-js/1.0.3:
     resolution:
       integrity: sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
+  /sql-formatter/2.3.3:
+    dependencies:
+      lodash: 4.17.15
+    dev: false
+    resolution:
+      integrity: sha512-m6pqVXwsm9GkCHC/+gdPvNowI7PNoVTT6OZMWKwXJoP2MvfntfhcfyliIf4/QX6t+DirSJ6XDSiSS70YvZ87Lw==
+  /sql.js/1.2.2:
+    dev: true
+    resolution:
+      integrity: sha512-T6Cb1+mRyabhONbAc95nlWydtRQ/p12MPhidi9FXCZg6gJo2GSqiUlDfoDy2h00PdfSvZioHn8MR8A0ks9z8KA==
   /sshpk/1.16.1:
     dependencies:
       asn1: 0.2.4

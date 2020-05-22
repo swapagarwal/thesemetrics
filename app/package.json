@@ -3,7 +3,8 @@
   "name": "@thesemetrics/app",
   "main": "dist/app.js",
   "scripts": {
-    "start": "node dist/app"
+    "start": "node dist/app",
+    "test": "jest"
   },
   "engines": {
     "node": ">=12.14.0"
@@ -28,12 +29,19 @@
     "pg": "^8.1.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.5",
+    "sql-formatter": "^2.3.3",
     "typeorm": "^0.2.24",
     "useragent": "^2.3.0"
   },
   "devDependencies": {
+    "@nestjs/testing": "^7.0.13",
     "@thesemetrics/database": "link:../database",
+    "@types/jest": "^25.2.3",
     "@types/node": "^13.13.5",
-    "@types/useragent": "^2.1.1"
+    "@types/sql-formatter": "^2.3.0",
+    "@types/useragent": "^2.1.1",
+    "jest": "^26.0.1",
+    "sql.js": "^1.2.2",
+    "ts-jest": "^26.0.0"
   }
 }
