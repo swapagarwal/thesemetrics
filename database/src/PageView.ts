@@ -29,7 +29,7 @@ export class PageView {
 
   @Column() createdOn!: Date;
 
-  @ManyToOne(() => Project, (project: IProject) => project.events)
+  @ManyToOne(() => Project)
   project?: IProject;
 }
 
