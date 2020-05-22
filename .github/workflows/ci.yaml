@@ -26,7 +26,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install pnpm
-        run: hash pnpm 2>/dev/null || npm install --global pnpm
+        run: hash pnpm 2>/dev/null || sudo npm install --global pnpm
 
       - name: Install dependencies and build packages
         run: |
