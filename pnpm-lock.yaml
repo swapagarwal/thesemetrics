@@ -26,7 +26,7 @@ importers:
       '@nestjs/core': 7.0.11_be0a9e3aa6eeb960c185cafee53cd610
       '@nestjs/graphql': 7.3.9_b60658cb289a69a2a324c0b4f4afbb34
       '@nestjs/platform-fastify': 7.0.11_d9b12555fb0bc5547ca2c18d363479eb
-      '@nestjs/typeorm': 7.0.0_ace4793402fc22a61cae6aa54d95d57b
+      '@nestjs/typeorm': 7.0.0_fabf4c96c2b7bd32acdf5e540b6dc90e
       class-transformer: 0.2.3
       class-validator: 0.12.2
       dotenv: 8.2.0
@@ -37,7 +37,7 @@ importers:
       reflect-metadata: 0.1.13
       rxjs: 6.5.5
       sql-formatter: 2.3.3
-      typeorm: 0.2.24
+      typeorm: github.com/znck/typeorm/2cf1de87f5a2a8983b97a40744e6ef91493363aa
       useragent: 2.3.0
     devDependencies:
       '@nestjs/testing': 7.0.13_d9b12555fb0bc5547ca2c18d363479eb
@@ -74,7 +74,7 @@ importers:
       sql-formatter: ^2.3.3
       sql.js: ^1.2.2
       ts-jest: ^26.0.0
-      typeorm: ^0.2.24
+      typeorm: znck/typeorm
       useragent: ^2.3.0
   clients/javascript:
     specifiers: {}
@@ -107,14 +107,14 @@ importers:
       '@nestjs/core': 7.0.11_be0a9e3aa6eeb960c185cafee53cd610
       '@nestjs/platform-fastify': 7.0.11_d9b12555fb0bc5547ca2c18d363479eb
       '@nestjs/terminus': 7.0.1_008443285049f389c1f85809a7ef196d
-      '@nestjs/typeorm': 7.0.0_ace4793402fc22a61cae6aa54d95d57b
+      '@nestjs/typeorm': 7.0.0_fabf4c96c2b7bd32acdf5e540b6dc90e
       device: 0.3.11
       dotenv: 8.2.0
       fastify: 2.14.1
       pg: 8.1.0_pg@8.1.0
       reflect-metadata: 0.1.13
       rxjs: 6.5.5
-      typeorm: 0.2.24
+      typeorm: github.com/znck/typeorm/2cf1de87f5a2a8983b97a40744e6ef91493363aa
       useragent: 2.3.0
     devDependencies:
       '@nestjs/testing': 7.0.13_d9b12555fb0bc5547ca2c18d363479eb
@@ -143,7 +143,7 @@ importers:
       reflect-metadata: ^0.1.13
       rxjs: ^6.5.5
       ts-jest: ^26.0.0
-      typeorm: ^0.2.24
+      typeorm: znck/typeorm
       useragent: ^2.3.0
 lockfileVersion: 5.1
 packages:
@@ -863,13 +863,13 @@ packages:
       '@nestjs/core': ^7.0.0
     resolution:
       integrity: sha512-Cc4yIGh5sKEFUsP02ToJX6/v57n+h4E43u5x6te3ocyUq6iJYae5tbshthEjNzieVIY80+dKu99EAB1P+psUCg==
-  /@nestjs/typeorm/7.0.0_ace4793402fc22a61cae6aa54d95d57b:
+  /@nestjs/typeorm/7.0.0_fabf4c96c2b7bd32acdf5e540b6dc90e:
     dependencies:
       '@nestjs/common': 7.0.11_b3556d138b40afc7ad37744b780e54fd
       '@nestjs/core': 7.0.11_be0a9e3aa6eeb960c185cafee53cd610
       reflect-metadata: 0.1.13
       rxjs: 6.5.5
-      typeorm: 0.2.24
+      typeorm: github.com/znck/typeorm/2cf1de87f5a2a8983b97a40744e6ef91493363aa
       uuid: 7.0.2
     dev: false
     peerDependencies:
@@ -5542,6 +5542,7 @@ packages:
     resolution:
       integrity: sha512-yJHVQEhyqPLUTgt9B83PXu6W3rx4MvvHvSUvToogpwoGDOUQ+yDrR0HRot+yOCdCO7u4hX3pWft6kWBBcqh0UA==
   /minimist/1.2.5:
+    dev: true
     resolution:
       integrity: sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
   /minipass-collect/1.0.2:
@@ -5625,6 +5626,7 @@ packages:
   /mkdirp/0.5.5:
     dependencies:
       minimist: 1.2.5
+    dev: true
     hasBin: true
     resolution:
       integrity: sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==
@@ -8111,6 +8113,7 @@ packages:
       xml2js: 0.4.23
       yargonaut: 1.1.4
       yargs: 13.3.2
+    dev: true
     hasBin: true
     resolution:
       integrity: sha512-L9tQv6nNLRyh+gex/qc8/CyLs8u0kXKqk1OjYGF13k/KOg6N2oibwkuGgv0FuoTGYx2ta2NmqvuMUAMrHIY5ew==
@@ -8627,3 +8630,26 @@ packages:
     dev: false
     resolution:
       integrity: sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
+  github.com/znck/typeorm/2cf1de87f5a2a8983b97a40744e6ef91493363aa:
+    dependencies:
+      app-root-path: 3.0.0
+      buffer: 5.6.0
+      chalk: 2.4.2
+      cli-highlight: 2.1.4
+      debug: 4.1.1
+      dotenv: 6.2.0
+      glob: 7.1.6
+      js-yaml: 3.13.1
+      mkdirp: 1.0.4
+      reflect-metadata: 0.1.13
+      sha.js: 2.4.11
+      tslib: 1.13.0
+      xml2js: 0.4.23
+      yargonaut: 1.1.4
+      yargs: 13.3.2
+    dev: false
+    hasBin: true
+    name: '@znck/typeorm-fork'
+    resolution:
+      tarball: 'https://codeload.github.com/znck/typeorm/tar.gz/2cf1de87f5a2a8983b97a40744e6ef91493363aa'
+    version: 0.2.25
