@@ -30,6 +30,7 @@ jobs:
 
       - name: Install dependencies and build packages
         run: |
+          npm config set store-dir ~/.pnpm-store
           pnpm install --frozen-lockfile
           pnpm run build
 
