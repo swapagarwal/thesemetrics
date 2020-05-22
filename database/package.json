@@ -1,6 +1,7 @@
 {
   "private": true,
   "name": "@thesemetrics/database",
+  "main": "dist/database.cjs.js",
   "module": "dist/database.esm.js",
   "types": "dist/index.d.ts",
   "scripts": {
