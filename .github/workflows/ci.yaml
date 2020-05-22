@@ -35,5 +35,3 @@ jobs:
 
       - name: Run unit tests
         run: pnpm recursive test
-
-# TODO: remove this comment. It is used to trigger workflows.
