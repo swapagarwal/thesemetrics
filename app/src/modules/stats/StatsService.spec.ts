@@ -1,6 +1,6 @@
 import { QuerySerializer, SqlQuery, SQL_QUERIES, TestDatabaseModule } from '@/modules/db/test-helpers';
 import { StatsService } from '@/modules/stats/StatsService';
-import { Test } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   DailyAggregateDevice,
@@ -13,13 +13,15 @@ import {
 describe('StatsService', () => {
   let service: StatsService;
   let queries: SqlQuery[];
+  let moduleRef: TestingModule;
+
   const since = new Date('2020-05-20T00:00:00.000Z');
   const fakeProject: Project = { id: 1 } as any;
 
   expect.addSnapshotSerializer(QuerySerializer);
 
   beforeAll(async () => {
-    const moduleRef = await Test.createTestingModule({
+    moduleRef = await Test.createTestingModule({
       imports: [
         TestDatabaseModule.forRoot(),
         TypeOrmModule.forFeature([DailyAggregateDevice, DailyAggregatePageView, DailyAggregateReferrerPageView]),
@@ -30,6 +32,8 @@ describe('StatsService', () => {
     service = moduleRef.get(StatsService);
     queries = moduleRef.get(SQL_QUERIES);
   });
+
+  afterAll(() => moduleRef.close());
 
   beforeEach(() => {
     queries.length = 0;
