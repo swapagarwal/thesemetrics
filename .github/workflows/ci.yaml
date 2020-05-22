@@ -1,0 +1,36 @@
+name: CI
+
+on: [push, pull_request]
+
+defaults:
+  shell: bash
+
+jobs:
+  unit:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node_modules cache
+        uses: actions/cache@v1
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install pnpm
+        run: hash pnpm 2>/dev/null || npm install --global pnpm
+
+      - name: Install dependencies and build packages
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm run build
+
+      - name: Run unit tests
+        run: pnpm recursive test
