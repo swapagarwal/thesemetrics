@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StatsService getDevices should query aggregated devices for the project 1`] = `
+
+-- Query 1
+SELECT
+  "DailyAggregateDevice"."id" AS "DailyAggregateDevice_id",
+  "DailyAggregateDevice"."date" AS "DailyAggregateDevice_date",
+  "DailyAggregateDevice"."type" AS "DailyAggregateDevice_type",
+  "DailyAggregateDevice"."browser" AS "DailyAggregateDevice_browser",
+  "DailyAggregateDevice"."browserVersion" AS "DailyAggregateDevice_browserVersion",
+  "DailyAggregateDevice"."os" AS "DailyAggregateDevice_os",
+  "DailyAggregateDevice"."osVersion" AS "DailyAggregateDevice_osVersion",
+  "DailyAggregateDevice"."count" AS "DailyAggregateDevice_count",
+  "DailyAggregateDevice"."projectId" AS "DailyAggregateDevice_projectId"
+FROM
+  "daily_aggregate_device" "DailyAggregateDevice"
+WHERE
+  "DailyAggregateDevice"."projectId" = 1
+  AND "DailyAggregateDevice"."date" >= '2020-05-20T00:00:00.000Z';
+
+
+`;
+
+exports[`StatsService getPageViews should query aggregated pageviews for the project 1`] = `
+
+-- Query 1
+SELECT
+  "DailyAggregatePageView"."id" AS "DailyAggregatePageView_id",
+  "DailyAggregatePageView"."date" AS "DailyAggregatePageView_date",
+  "DailyAggregatePageView"."path" AS "DailyAggregatePageView_path",
+  "DailyAggregatePageView"."count" AS "DailyAggregatePageView_count",
+  "DailyAggregatePageView"."uniqueCount" AS "DailyAggregatePageView_uniqueCount",
+  "DailyAggregatePageView"."projectId" AS "DailyAggregatePageView_projectId"
+FROM
+  "daily_aggregate_pageview" "DailyAggregatePageView"
+WHERE
+  "DailyAggregatePageView"."projectId" = 1
+  AND "DailyAggregatePageView"."date" >= '2020-05-20T00:00:00.000Z'
+  AND "DailyAggregatePageView"."path" = '*';
+
+
+`;
+
+exports[`StatsService getReferrers should query aggregated referrers for the project 1`] = `
+
+-- Query 1
+SELECT
+  "DailyAggregateReferrerPageView"."id" AS "DailyAggregateReferrerPageView_id",
+  "DailyAggregateReferrerPageView"."date" AS "DailyAggregateReferrerPageView_date",
+  "DailyAggregateReferrerPageView"."referrerKind" AS "DailyAggregateReferrerPageView_referrerKind",
+  "DailyAggregateReferrerPageView"."referrer" AS "DailyAggregateReferrerPageView_referrer",
+  "DailyAggregateReferrerPageView"."path" AS "DailyAggregateReferrerPageView_path",
+  "DailyAggregateReferrerPageView"."count" AS "DailyAggregateReferrerPageView_count",
+  "DailyAggregateReferrerPageView"."projectId" AS "DailyAggregateReferrerPageView_projectId"
+FROM
+  "daily_aggregate_referrer_pageview" "DailyAggregateReferrerPageView"
+WHERE
+  "DailyAggregateReferrerPageView"."projectId" = 1
+  AND "DailyAggregateReferrerPageView"."referrerKind" = 'referrer'
+  AND "DailyAggregateReferrerPageView"."date" >= '2020-05-20T00:00:00.000Z'
+  AND "DailyAggregateReferrerPageView"."path" = '*';
+
+
+`;
+
+exports[`StatsService getTopResources should query top resources for the project 1`] = `
+
+-- Query 1
+SELECT
+  "path",
+  sum("count") as "count"
+FROM
+  "daily_aggregate_pageview" "DailyAggregatePageView"
+WHERE
+  "DailyAggregatePageView"."projectId" = 1
+  AND "DailyAggregatePageView"."date" >= '2020-05-20T00:00:00.000Z'
+GROUP BY
+  "path"
+ORDER BY
+  "count" DESC
+LIMIT
+  10;
+
+
+`;
