@@ -2,13 +2,13 @@ import { BadRequestException, Controller, Get, Headers, Query, Res } from '@nest
 import getDevice from 'device';
 import { FastifyReply } from 'fastify';
 import { lookup } from 'useragent';
-import { ProjectService } from './ProjectService';
+import { PixelService } from './PixelService';
 
 const pixel = Buffer.from('R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=', 'base64');
 
 @Controller()
 export class PixelController {
-  constructor(private readonly service: ProjectService) {}
+  constructor(private readonly service: PixelService) {}
 
   @Get('/default.gif')
   public async getDefaultPixel(
