@@ -24,36 +24,10 @@ export interface SqlError extends SqlQuery {
 
 export const SQL_ERRORS = '@test/sql-errors';
 export const SQL_QUERIES = '@test/sql-queries';
-
-let alreadyPatched = false;
-function patchTypeORM() {
-  if (alreadyPatched) return;
-  const fileName = require.resolve('typeorm/driver/sqlite-abstract/AbstractSqliteDriver.js');
-  let contents = FS.readFileSync(fileName, { encoding: 'utf-8' });
-
-  if (!contents.includes('timestamp without time zone')) {
-    contents = contents.replace(
-      'this.supportedDataTypes = [',
-      `this.supportedDataTypes = [
-        "jsonb",
-        "timestamp with time zone",
-        "timestamp without time zone",
-    `
-    );
-
-    FS.writeFileSync(fileName, contents);
-    delete require.cache[fileName];
-  }
-
-  alreadyPatched = true;
-}
-
 export class TestDatabaseModule {
   static forRoot(): DynamicModule {
     const queries: SqlQuery[] = [];
     const errors: SqlError[] = [];
-
-    patchTypeORM();
 
     return {
       module: TestDatabaseModule,
@@ -62,7 +36,6 @@ export class TestDatabaseModule {
           type: 'sqljs',
           logging: true,
           synchronize: false,
-          sqlJsConfig: {},
           logger: {
             log: () => {},
             logMigration: () => {},
@@ -105,7 +78,7 @@ function stringify(data: any) {
       return `'${data.replace(/'/g, "\\'")}'`;
     case 'object':
       if (data instanceof Date) {
-        return `'${data.toISOString()}'`
+        return `'${data.toISOString()}'`;
       }
     default:
       return JSON.stringify(data);
