@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { PixelService } from './PixelService';
+import { PixelService } from '@/PixelService';
 import { Repository } from 'typeorm';
 import { Project, PageView } from '@thesemetrics/database';
 

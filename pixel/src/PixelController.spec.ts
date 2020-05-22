@@ -1,4 +1,4 @@
-import { PixelController } from './PixelController';
+import { PixelController } from '@/PixelController';
 import { PixelService } from '@/PixelService';
 import { FastifyReply } from 'fastify';
 

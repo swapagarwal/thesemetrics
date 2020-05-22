@@ -1,4 +1,4 @@
-import './env';
+import '@/env';
 
 import { CallHandler, ExecutionContext, Injectable, Module, NestInterceptor, UseInterceptors } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -7,9 +7,9 @@ import { TerminusModule } from '@nestjs/terminus';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { config, PageView, Project, ProjectEvent, Team, User } from '@thesemetrics/database';
 import { FastifyRequest } from 'fastify';
-import { HealthController } from 'src/HealthController';
-import { PixelController } from './PixelController';
-import { PixelService } from './PixelService';
+import { HealthController } from '@/HealthController';
+import { PixelController } from '@/PixelController';
+import { PixelService } from '@/PixelService';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {

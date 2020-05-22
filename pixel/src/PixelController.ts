@@ -2,7 +2,7 @@ import { BadRequestException, Controller, Get, Headers, Query, Res } from '@nest
 import getDevice from 'device';
 import { FastifyReply } from 'fastify';
 import { lookup } from 'useragent';
-import { PixelService } from './PixelService';
+import { PixelService } from '@/PixelService';
 
 const pixel = Buffer.from('R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=', 'base64');
 
