@@ -3,7 +3,8 @@
   "name": "@thesemetrics/pixel",
   "main": "dist/pixel.js",
   "scripts": {
-    "start": "node dist/pixel"
+    "start": "node dist/pixel",
+    "test": "jest"
   },
   "engines": {
     "node": ">=12.14.0"
@@ -29,8 +30,12 @@
     "useragent": "^2.3.0"
   },
   "devDependencies": {
+    "@nestjs/testing": "^7.0.13",
     "@thesemetrics/database": "link:../database",
+    "@types/jest": "^25.2.3",
     "@types/node": "^13.13.5",
-    "@types/useragent": "^2.1.1"
+    "@types/useragent": "^2.1.1",
+    "jest": "^26.0.1",
+    "ts-jest": "^26.0.0"
   }
 }
