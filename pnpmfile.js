@@ -4,11 +4,15 @@ module.exports = {
   },
 };
 
-function readPackage(pkg, context) {
-  if (process.env.INSTALL_TARGET === 'docker') return pkg;
-  
+function readPackage(pkg) {
   if ('typeorm' in pkg.dependencies) {
-    pkg.dependencies.typeorm = 'znck/typeorm'
+    return {
+      ...pkg,
+      dependencies: {
+        ...pkg.dependencies,
+        typeorm: 'znck/typeorm',
+      },
+    };
   }
 
   return pkg;
