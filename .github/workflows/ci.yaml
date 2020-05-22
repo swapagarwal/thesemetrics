@@ -13,24 +13,29 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Setup global node_modules cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-global-node-modules
+
       - name: Setup node_modules cache
         uses: actions/cache@v1
         env:
           cache-name: cache-node-modules
         with:
-          path: ~/.pnpm-store
+          path: .pnpm-store
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
-            ${{ runner.os }}-
 
       - name: Install pnpm
         run: hash pnpm 2>/dev/null || sudo npm install --global pnpm
 
       - name: Install dependencies and build packages
         run: |
-          npm config set store-dir ~/.pnpm-store
+          npm config set store-dir $(pwd)/.pnpm-store
           pnpm install --frozen-lockfile
           pnpm run build
 
