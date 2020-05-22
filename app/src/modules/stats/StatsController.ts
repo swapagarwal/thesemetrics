@@ -10,9 +10,9 @@ export class StatsController {
 
   @Get('/stats')
   async getStats(
+    @Res() response: FastifyReply<Response>,
     @Query('domain') domain: string,
-    @Query('path') path: string = '*',
-    @Res() response: FastifyReply<Response>
+    @Query('path') path: string = '*'
   ) {
     const project = await this.projects.findProjectByDomain(domain);
     const devices = await this.stats.getDevices(project);
@@ -20,7 +20,7 @@ export class StatsController {
     const resources = await this.stats.getTopResources(project);
     const referrers = await this.stats.getReferrers(project, ReferrerKind.REFERRER);
 
-    if (!__DEV__) response.header('Cache-Control', `public, max-age=${secondsRemainingToday()}, immutable`);
+    if (!__DEV__) response.header('Cache-Control', `public, max-age=3600, immutable`);
 
     return response.type('application/json').send({
       domain: project.domain,
@@ -31,13 +31,4 @@ export class StatsController {
       referrers,
     });
   }
-}
-
-function secondsRemainingToday() {
-  const now = new Date();
-  const eod = new Date();
-
-  eod.setUTCHours(23, 59, 59, 999);
-
-  return (eod.getTime() - now.getTime()) / 1000;
 }
