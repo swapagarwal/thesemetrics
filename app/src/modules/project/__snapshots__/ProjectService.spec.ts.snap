@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProjectService findProjectByDomain should query project by domain name 1`] = `
+
+-- Query 1
+SELECT
+  "Project"."id" AS "Project_id",
+  "Project"."name" AS "Project_name",
+  "Project"."type" AS "Project_type",
+  "Project"."domain" AS "Project_domain",
+  "Project"."preferences" AS "Project_preferences",
+  "Project"."createdAt" AS "Project_createdAt",
+  "Project"."updatedAt" AS "Project_updatedAt",
+  "Project"."teamId" AS "Project_teamId"
+FROM
+  "project" "Project"
+WHERE
+  "Project"."domain" = 'example.com'
+LIMIT
+  1;
+
+
+`;
