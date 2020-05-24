@@ -31,7 +31,7 @@ export default defineComponent({
     Array(30)
       .fill(0)
       .forEach(() => {
-        labels.value.unshift(formatter.format(date));
+        labels.value.push(formatter.format(date));
         date.setDate(date.getDate() - 1);
       });
 
