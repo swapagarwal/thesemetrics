@@ -19,7 +19,13 @@ export default defineComponent({
     });
 
     const labels = ref<string[]>([]);
-    const pageviews = computed(() => props.data.map((item) => item.count));
+    const pageviews = computed(() => {
+      const data = props.data.map((item) => item.count);
+
+      while (data.length < 30) data.unshift(0);
+
+      return data;
+    });
 
     const date = new Date();
     Array(30)
