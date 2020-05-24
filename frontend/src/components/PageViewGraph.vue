@@ -18,14 +18,14 @@ export default defineComponent({
       day: 'numeric',
     });
 
-    const labels = ref([]);
+    const labels = ref<string[]>([]);
     const pageviews = computed(() => props.data.map((item) => item.count));
 
     const date = new Date();
     Array(30)
       .fill(0)
       .forEach(() => {
-        labels.value.push(formatter.format(date));
+        labels.value.unshift(formatter.format(date));
         date.setDate(date.getDate() - 1);
       });
 
@@ -57,7 +57,6 @@ export default defineComponent({
     watch(
       () => pageviews.value,
       (pageviews) => {
-        console.log(pageviews)
         chart.updateSeries([{ name: 'pageviews', data: pageviews }], true);
       }
     );
