@@ -8,8 +8,8 @@ export default defineComponent({
     const project = ref(window.location.hostname);
 
     function goToDashboard() {
-      if (project.value) router.push(`/dasboard/${project.value}`);
-      else router.push('/dasboard');
+      if (project.value) router.push(`/dashboard/${project.value}`);
+      else router.push('/dashboard');
     }
 
     return { project, goToDashboard };
