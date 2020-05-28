@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 800px; margin: auto;">
+  <div style="max-width: 800px; margin: auto;">
     <RouterView />
   </div>
 </template>
@@ -9,3 +9,9 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({});
 </script>
+
+<style>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+</style>

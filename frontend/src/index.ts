@@ -17,6 +17,7 @@ const router = createRouter({
       props: true
     },
     {
+      name: 'dashboard',
       path: '/dashboard/:domain',
       component: defineAsyncComponent(() => import('./pages/dashboard.vue')),
       props: true

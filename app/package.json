@@ -30,7 +30,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.5",
     "sql-formatter": "^2.3.3",
-    "typeorm": "^0.2.24",
+    "typeorm": "znck/typeorm",
     "useragent": "^2.3.0"
   },
   "devDependencies": {
